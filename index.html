@@ -641,11 +641,7 @@
             tabulateAnswers()
         }
 
-        function stopThings() {
-            document.getElementById("submit").style.display = "none";
-            document.getElementById("reset").style.display = "inline";
-            setTimeout(location.reload, 180000)
-        }
+    
     }
     
   
@@ -908,6 +904,13 @@
             //setParameters();
             micEnv.triggerAttackRelease(2);
             setTimeout(drawLoop,1000);
+            
+            function stopThings() {
+                document.getElementById("submit").style.display = "none";
+                document.getElementById("reset").style.display = "inline";
+                setTimeout(location.reload, 180000)
+            }
+
             stopThings()
             //netlify
         }    
