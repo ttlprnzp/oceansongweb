@@ -71,12 +71,6 @@
       border: 1px solid #aaaaaa;
     }
 
-    /* Mark input boxes that gets an error on validation: */
-    input.invalid {
-    background-color: #ce0f0f;
-    }
-      
-    /* Hide all steps by default: */
     .tab {
       display: none;
     }
@@ -96,11 +90,6 @@
       opacity: 0.8;
     }
     
-    #prevBtn {
-      background-color: #bbbbbb;
-    }
-    
-    /* Make circles that indicate the steps of the form: */
     .step {
       height: 15px;
       width: 15px;
@@ -116,10 +105,6 @@
       opacity: 1;
     }
     
-    /* Mark the steps that are finished and valid: */
-    .step.finish {
-      background-color: #646464;
-    }
 </style>
 
 <body>
@@ -530,7 +515,6 @@
                 <div>
                     <div style="position:fixed; bottom:5%; width:100%"">
                         <button type="button" id="start" onclick="startThings(1)">Start</button>
-                        <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
                         <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
                         <button type="button" id="submit">Submit</button>
                         <button type="button" id="reset" onclick="location.reload()">Reset</button>
@@ -562,86 +546,79 @@
     let page2 = [0,0,0,0,0];
     let page3 = [0,0,0,0,0];
     let page4 = [0,0,0,0,0];
-    
     let qValues = [page1, page2, page3, page4] 
     
+    const pages = document.getElementsByClassName("tab")
+
     showTab(currentTab); 
     
     async function startThings(n) {
-        const pages = document.getElementsByClassName("tab");
         pages[n].style.display = "block";
-
         await Tone.start();
             console.log("läuft")
             var mic = new Tone.UserMedia(10);
             mic.open()
-
         pages[currentTab].style.display = "none";
         currentTab = currentTab + n;
         showTab(currentTab);
     }
 
     function showTab(n) {
-        const pages = document.getElementsByClassName("tab");
         pages[n].style.display = "block";
         //... and fix the Previous/Next buttons:
         if (n == 0) {
             document.getElementById("start").style.display = "inline";
-            document.getElementById("prevBtn").style.display = "none";
             document.getElementById("nextBtn").style.display = "none";
             document.getElementById("submit").style.display = "none";
             document.getElementById("reset").style.display = "none";
         } else {
             document.getElementById("start").style.display = "none";
-            document.getElementById("prevBtn").style.display = "inline";
             document.getElementById("nextBtn").style.display = "inline";
         }
         if (n == (pages.length-1)) {
             document.getElementById("submit").style.display = "inline";
             document.getElementById("nextBtn").style.display = "none";
-            document.getElementById("prevBtn").style.display = "none";
         } 
         fixStepIndicator(n)
     }
     
-    function nextPrev(n) {
-        // This function will figure out which tab to display
-        const pages = document.getElementsByClassName("tab");
-        function pushAnswers() {
-            let pAnswers = pages[currentTab].getElementsByTagName('input');
+    function pushAnswers(cTab) {
+            let pAnswers = pages[cTab].getElementsByTagName('input');
                 console.log(pAnswers);
                 for (i=0; i < pAnswers.length; i++) {
                     if (pAnswers[i].checked) {
                         if (pAnswers[i].id == 'open') {
-                            qValues[currentTab-1][0] = parseInt(pAnswers[i].value);
+                            qValues[cTab-1][0] = parseInt(pAnswers[i].value);
                         }
                         if (pAnswers[i].id == 'consc') {
-                            qValues[currentTab-1][1] = parseInt(pAnswers[i].value);
+                            qValues[cTab-1][1] = parseInt(pAnswers[i].value);
                         }
                         if (pAnswers[i].id == 'extra') {
-                            qValues[currentTab-1][2] = parseInt(pAnswers[i].value);
+                            qValues[cTab-1][2] = parseInt(pAnswers[i].value);
                         }
                         if (pAnswers[i].id == 'agree') {
-                            qValues[currentTab-1][3] = parseInt(pAnswers[i].value);
+                            qValues[cTab-1][3] = parseInt(pAnswers[i].value);
                         }
                         if (pAnswers[i].id == 'neuro') {
-                            qValues[currentTab-1][4] = parseInt(pAnswers[i].value);
+                            qValues[cTab-1][4] = parseInt(pAnswers[i].value);
                         }
                     }
                 };
                 console.log(qValues[currentTab-1])
                 shape(qValues[currentTab-1], radius/5, 1, angle, 3);
             }
-        
-        pushAnswers();
+
+    function nextPrev(n) {            
+        pushAnswers(currentTab, pages);
+
         pages[currentTab].style.display = "none";
+
         currentTab = currentTab + n;
+
         showTab(currentTab);
         if (currentTab == 5) {
-            tabulateAnswers()
-        }
-
-    
+                tabulateAnswers()
+        } 
     }
     
   
@@ -698,6 +675,7 @@
         resizeCanvas();
     }
 
+
     function resizeCanvas() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
@@ -710,10 +688,18 @@
             radius = 0.45*canvas.height
         }
         console.log(radius)
-        setBackground();
+        
+        if (currentTab <= 5) {
+            setBackground();
+            if (currentTab >= 2) {
+                for (i=1; i<=currentTab; i++) {
+                    shape(qValues[i-1], radius/5, 1, angle, 3);
+                }
+            }
+        }
     }
-
-
+    resizeCanvas();
+    initialize()
 
     let size = radius/5
 
@@ -759,9 +745,8 @@
         }
         grid(radius*2, 0.1, angle)
     }
-    
-    initialize();
 
+      
     function getRan(min,max) {
         min = Math.ceil(min);
         max = Math.floor(max);
