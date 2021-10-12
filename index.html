@@ -710,10 +710,10 @@
             radius = 0.45*canvas.height
         }
         console.log(radius)
+        setBackground();
     }
 
-    initialize();
-    setBackground();
+
 
     let size = radius/5
 
@@ -760,6 +760,8 @@
         grid(radius*2, 0.1, angle)
     }
     
+    initialize();
+
     function getRan(min,max) {
         min = Math.ceil(min);
         max = Math.floor(max);
