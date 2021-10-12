@@ -1,0 +1,916 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Sing me the Ocean Song</title>
+    <meta charset="utf-8" />
+</head>
+
+<style>
+    * {
+      box-sizing: border-box;
+    }
+    
+    body {
+      background-color: #ffffff;
+      font-family: monospace;
+    }
+
+    canvas {
+      width: 100%;
+      height: 100%;
+      margin: 0px;
+      border: 0;
+      background-attachment: fixed;
+      overflow: hidden; 
+      display: block; 
+      z-index: -2;
+    }
+
+    #ipip {
+      margin: 100px auto;
+      font-family: sans-serif;
+      padding: 40px;
+      width: 70%;
+      min-width: 300px;
+      text-align: center;
+    }
+    
+
+    
+    #info {
+        position:fixed;
+    }
+    h1 {
+      width: 100%;
+      font-size: 36px;
+    }
+
+    h3 {
+      width: 100%;
+      font-size: 18px;
+      margin-top: 0px;
+    }
+
+
+    p {
+        width: 30%;
+        font-size: 17px;
+        padding: 50px;
+        text-align: left;
+        z-index: 1;
+        position: fixed;
+    }
+    
+    input {
+      padding: 10px;
+      width: 100%;
+      font-size: 17px;
+      font-family: sans-serif;
+      display: inline-block;
+      border: 1px solid #aaaaaa;
+    }
+
+    /* Mark input boxes that gets an error on validation: */
+    input.invalid {
+    background-color: #ce0f0f;
+    }
+      
+    /* Hide all steps by default: */
+    .tab {
+      display: none;
+    }
+    
+    button {
+      background-color: #000000;
+      color: #ffffff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 17px;
+      font-family: monospace;
+      z-index: 2;
+      cursor: pointer;
+    }
+    
+    button:hover {
+      opacity: 0.8;
+    }
+    
+    #prevBtn {
+      background-color: #bbbbbb;
+    }
+    
+    /* Make circles that indicate the steps of the form: */
+    .step {
+      height: 15px;
+      width: 15px;
+      background-color: #000000;
+      border: none;  
+      border-radius: 50%;
+      display: inline-block;
+      text-align: center;
+      opacity: 0.5;
+    }
+    
+    .step.active {
+      opacity: 1;
+    }
+    
+    /* Mark the steps that are finished and valid: */
+    .step.finish {
+      background-color: #646464;
+    }
+</style>
+
+<body>
+    <canvas id='myCanvas' style='position:fixed; left:0px; top:0px;'></canvas>
+
+    <div id="wrapper", style="text-align:center">
+
+        <div id="info">
+        <h1>OCEAN SONG</h1>
+
+        <h3>Andreas Sommer</h3>
+        
+        <div class="tab">
+            <p>Well this is some fancy text about what this is supposed to do. It's a crazy experience and you will love it I guess. So let's jsut go ahead, it's psychological and such and you have to give me permission to use your microphone because I will spy on you and then mirror it back to you and such.</p>
+        </div>
+        </div>
+        
+            <form id="ipip">
+
+                <div class="tab">
+                    <!-- Question 1 -->
+                    <h2>I am the life of the party.</h2>
+
+                    <input type="radio" id="extra" name="q1" value="1">
+                    <label class= "radio-inline">Very Inaccurate</label>
+
+                    <label class = "radio-inline"><input type="radio" id="extra" name="q1" value="2">
+                        Moderately Inaccurate
+                    </label>
+                    <label class = "radio-inline"><input type="radio" id="extra" name="q1" value="3">
+                        Neither Accurate nor Inaccurate
+                    </label>
+                    <label class = "radio-inline"><input type="radio" id="extra" name="q1" value="4">
+                        Moderatley Accurate
+                    </label>
+                    <label class = "radio-inline"><input type="radio" id="extra" name="q1" value="5">
+                        Very Accurate
+                    </label>
+
+                    <!-- Question 2 -->
+                    <h2>I sympathize with others' feelings.</h2>
+                    
+                    <label><input type="radio" id="agree" name="q2" value="1">
+                        Very Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="agree" name="q2" value="2">
+                        Moderately Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="agree" name="q2" value="3">
+                        Neither Accurate nor Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="agree" name="q2" value="4">
+                        Moderatley Accurate
+                    </label><br />
+                    <label><input type="radio" id="agree" name="q2" value="5">
+                        Very Accurate
+                    </label><br />
+
+                    <!-- Question 3 -->
+                    <h2>I get chores done right away.</h2>
+                    
+                    <label><input type="radio" id="consc" name="q3" value="1">
+                        Very Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="consc" name="q3" value="2">
+                        Moderately Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="consc" name="q3" value="3">
+                        Neither Accurate nor Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="consc" name="q3" value="4">
+                        Moderatley Accurate
+                    </label><br />
+                    <label><input type="radio" id="consc" name="q3" value="5">
+                        Very Accurate
+                    </label><br />
+
+                    <!-- Question 4 -->
+                    <h2>I have frequent mood swings.</h2>
+                    
+                    <label><input type="radio" id="neuro" name="q4" value="1">
+                        Very Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="neuro" name="q4" value="2">
+                        Moderately Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="neuro" name="q4" value="3">
+                        Neither Accurate nor Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="neuro" name="q4" value="4">
+                        Moderatley Accurate
+                    </label><br />
+                    <label><input type="radio" id="neuro" name="q4" value="5">
+                        Very Accurate
+                    </label><br />
+
+                    <!-- Question 5 -->
+                    <h2>I have a vivid imagination.</h2>
+                    
+                    <label><input type="radio" id="open" name="q5" value="1">
+                        Very Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="open" name="q5" value="2">
+                        Moderately Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="open" name="q5" value="3">
+                        Neither Accurate nor Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="open" name="q5" value="4">
+                        Moderatley Accurate
+                    </label><br />
+                    <label><input type="radio" id="open" name="q5" value="5">
+                        Very Accurate
+                    </label><br />
+                </div>
+
+                <div class="tab">
+                    <!-- Question 6 -->
+                    <h2>I don't talk a lot.</h2>
+                    
+                    <label><input type="radio" id="extra" name="q6" value="5">
+                        Very Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="extra" name="q6" value="4">
+                        Moderately Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="extra" name="q6" value="3">
+                        Neither Accurate nor Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="extra" name="q6" value="2">
+                        Moderatley Accurate
+                    </label><br />
+                    <label><input type="radio" id="extra" name="q6" value="1">
+                        Very Accurate
+                    </label><br />
+
+                    <!-- Question 7 -->
+                    <h2>I am not interested in other people's problems.</h2>
+                    
+                    <label><input type="radio" id="agree" name="q7" value="5">
+                        Very Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="agree" name="q7" value="4">
+                        Moderately Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="agree" name="q7" value="3">
+                        Neither Accurate nor Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="agree" name="q7" value="2">
+                        Moderatley Accurate
+                    </label><br />
+                    <label><input type="radio" id="agree" name="q7" value="1">
+                        Very Accurate
+                    </label><br />
+
+                    <!-- Question 8 -->
+                    <h2>I often forget to put things back in their proper place.</h2>
+                    
+                    <label><input type="radio" id="consc" name="q8" value="5">
+                        Very Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="consc" name="q8" value="4">
+                        Moderately Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="consc" name="q8" value="3">
+                        Neither Accurate nor Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="consc" name="q8" value="2">
+                        Moderatley Accurate
+                    </label><br />
+                    <label><input type="radio" id="consc" name="q8" value="1">
+                        Very Accurate
+                    </label><br />
+
+                    <!-- Question 9 -->
+                    <h2>I am relaxed most of the time.</h2>
+                    
+                    <label><input type="radio" id="neuro" name="q9" value="5">
+                        Very Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="neuro" name="q9" value="4">
+                        Moderately Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="neuro" name="q9" value="3">
+                        Neither Accurate nor Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="neuro" name="q9" value="2">
+                        Moderatley Accurate
+                    </label><br />
+                    <label><input type="radio" id="neuro" name="q9" value="1">
+                        Very Accurate
+                    </label><br />
+
+                    <!-- Question 10 -->
+                    <h2>I am not interested in abstract ideas.</h2>
+                    
+                    <label><input type="radio" id="open" name="q10" value="5">
+                        Very Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="open" name="q10" value="4">
+                        Moderately Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="open" name="q10" value="3">
+                        Neither Accurate nor Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="open" name="q10" value="2">
+                        Moderatley Accurate
+                    </label><br />
+                    <label><input type="radio" id="open" name="q10" value="1">
+                        Very Accurate
+                    </label><br />
+                </div>
+
+                <div class="tab">
+                    <!-- Question 11 -->
+                    <h2>I talk to a lot of different people at parties.</h2>
+
+                    <label><input type="radio" id="extra" name="q11" value="1">
+                        Very Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="extra" name="q11" value="2">
+                        Moderately Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="extra" name="q11" value="3">
+                        Neither Accurate nor Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="extra" name="q11" value="4">
+                        Moderatley Accurate
+                    </label><br />
+                    <label><input type="radio" id="extra" name="q11" value="5">
+                        Very Accurate
+                    </label><br />
+
+                    <!-- Question 12 -->
+                    <h2>I feel others' emotions.</h2>
+                    
+                    <label><input type="radio" id="agree" name="q12" value="1">
+                        Very Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="agree" name="q12" value="2">
+                        Moderately Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="agree" name="q12" value="3">
+                        Neither Accurate nor Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="agree" name="q12" value="4">
+                        Moderatley Accurate
+                    </label><br />
+                    <label><input type="radio" id="agree" name="q12" value="5">
+                        Very Accurate
+                    </label><br />
+
+                    <!-- Question 13 -->
+                    <h2>I like order.</h2>
+                    
+                    <label><input type="radio" id="consc" name="q13" value="1">
+                        Very Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="consc" name="q13" value="2">
+                        Moderately Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="consc" name="q13" value="3">
+                        Neither Accurate nor Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="consc" name="q13" value="4">
+                        Moderatley Accurate
+                    </label><br />
+                    <label><input type="radio" id="consc" name="q13" value="5">
+                        Very Accurate
+                    </label><br />
+
+                    <!-- Question 14 -->
+                    <h2>I get upset easily.</h2>
+                    
+                    <label><input type="radio" id="neuro" name="q14" value="1">
+                        Very Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="neuro" name="q14" value="2">
+                        Moderately Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="neuro" name="q14" value="3">
+                        Neither Accurate nor Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="neuro" name="q14" value="4">
+                        Moderatley Accurate
+                    </label><br />
+                    <label><input type="radio" id="neuro" name="q14" value="5">
+                        Very Accurate
+                    </label><br />
+
+                    <!-- Question 15 -->
+                    <h2>I have difficulty understanding abstract ideas.</h2>
+                    
+                    <label><input type="radio" id="open" name="q15" value="5">
+                        Very Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="open" name="q15" value="4">
+                        Moderately Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="open" name="q15" value="3">
+                        Neither Accurate nor Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="open" name="q15" value="2">
+                        Moderatley Accurate
+                    </label><br />
+                    <label><input type="radio" id="open" name="q15" value="1">
+                        Very Accurate
+                    </label><br />
+                </div>
+
+                <div class="tab">
+                    <!-- Question 16 -->
+                    <h2>I keep in the background.</h2>
+                    
+                    <label><input type="radio" id="extra" name="q16" value="5">
+                        Very Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="extra" name="q16" value="4">
+                        Moderately Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="extra" name="q16" value="3">
+                        Neither Accurate nor Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="extra" name="q16" value="2">
+                        Moderatley Accurate
+                    </label><br />
+                    <label><input type="radio" id="extra" name="q16" value="1">
+                        Very Accurate
+                    </label><br />
+
+                    <!-- Question 17 -->
+                    <h2>I am not really interested in others.</h2>
+                    
+                    <label><input type="radio" id="agree" name="q17" value="5">
+                        Very Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="agree" name="q17" value="4">
+                        Moderately Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="agree" name="q17" value="3">
+                        Neither Accurate nor Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="agree" name="q17" value="2">
+                        Moderatley Accurate
+                    </label><br />
+                    <label><input type="radio" id="agree" name="q17" value="1">
+                        Very Accurate
+                    </label><br />
+
+                    <!-- Question 18 -->
+                    <h2>I make a mess of things.</h2>
+                    
+                    <label><input type="radio" id="consc" name="q18" value="5">
+                        Very Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="consc" name="q18" value="4">
+                        Moderately Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="consc" name="q18" value="3">
+                        Neither Accurate nor Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="consc" name="q18" value="2">
+                        Moderatley Accurate
+                    </label><br />
+                    <label><input type="radio" id="consc" name="q18" value="1">
+                        Very Accurate
+                    </label><br />
+
+                    <!-- Question 19 -->
+                    <h2>I seldom feel blue.</h2>
+                    
+                    <label><input type="radio" id="neuro" name="q19" value="5">
+                        Very Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="neuro" name="q19" value="4">
+                        Moderately Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="neuro" name="q19" value="3">
+                        Neither Accurate nor Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="neuro" name="q19" value="2">
+                        Moderatley Accurate
+                    </label><br />
+                    <label><input type="radio" id="neuro" name="q19" value="1">
+                        Very Accurate
+                    </label><br />
+
+                    <!-- Question 20 -->
+                    <h2>I do not have a good imagination.</h2>
+                    
+                    <label><input type="radio" id="open" name="q20" value="5">
+                        Very Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="open" name="q20" value="4">
+                        Moderately Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="open" name="q20" value="3">
+                        Neither Accurate nor Inaccurate
+                    </label><br />
+                    <label><input type="radio" id="open" name="q20" value="2">
+                        Moderatley Accurate
+                    </label><br />
+                    <label><input type="radio" id="open" name="q20" value="1">
+                        Very Accurate
+                    </label><br />
+                </div>
+                                              
+                <div>
+                    <div style="position:fixed; bottom:5%; width:100%"">
+                        <button type="button" id="start" onclick="startThings(1)">Start</button>
+                        <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+                        <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+                        <button type="button" id="submit">Submit</button>
+                        <button type="button" id="reset" onclick="location.reload()">Reset</button>
+                    </div>
+                </div>                
+            </form>
+        
+        <div class="tab">
+            <p>Some text about what to do next and thanks and stuff.</p>
+        </div>
+
+        <div style="position:fixed; bottom:1%; width:100%;">
+            <span class="step"></span>
+            <span class="step"></span>
+            <span class="step"></span>
+            <span class="step"></span>
+            <span class="step"></span>
+            <span class="step"></span>
+        </div>
+    </div>
+</body>
+
+<script type="module" src="Tone.js"></script>
+
+
+<script>
+    let currentTab = 0;
+    let page1 = [0,0,0,0,0];
+    let page2 = [0,0,0,0,0];
+    let page3 = [0,0,0,0,0];
+    let page4 = [0,0,0,0,0];
+    
+    let qValues = [page1, page2, page3, page4] 
+    
+    showTab(currentTab); 
+    
+    async function startThings(n) {
+        const pages = document.getElementsByClassName("tab");
+        pages[n].style.display = "block";
+
+        await Tone.start();
+            console.log("läuft")
+            var mic = new Tone.UserMedia(10);
+            mic.open()
+
+        pages[currentTab].style.display = "none";
+        currentTab = currentTab + n;
+        showTab(currentTab);
+    }
+
+    function showTab(n) {
+        const pages = document.getElementsByClassName("tab");
+        pages[n].style.display = "block";
+        //... and fix the Previous/Next buttons:
+        if (n == 0) {
+            document.getElementById("start").style.display = "inline";
+            document.getElementById("prevBtn").style.display = "none";
+            document.getElementById("nextBtn").style.display = "none";
+            document.getElementById("submit").style.display = "none";
+            document.getElementById("reset").style.display = "none";
+        } else {
+            document.getElementById("start").style.display = "none";
+            document.getElementById("prevBtn").style.display = "inline";
+            document.getElementById("nextBtn").style.display = "inline";
+        }
+        if (n == (pages.length-1)) {
+            //document.getElementById("submit").style.display = "inline";
+            document.getElementById("nextBtn").style.display = "none";
+            document.getElementById("prevBtn").style.display = "none";
+        } 
+        fixStepIndicator(n)
+    }
+    
+    function nextPrev(n) {
+        // This function will figure out which tab to display
+        const pages = document.getElementsByClassName("tab");
+        function pushAnswers() {
+            let pAnswers = pages[currentTab].getElementsByTagName('input');
+                console.log(pAnswers);
+                for (i=0; i < pAnswers.length; i++) {
+                    if (pAnswers[i].checked) {
+                        if (pAnswers[i].id == 'open') {
+                            qValues[currentTab-1][0] = parseInt(pAnswers[i].value);
+                        }
+                        if (pAnswers[i].id == 'consc') {
+                            qValues[currentTab-1][1] = parseInt(pAnswers[i].value);
+                        }
+                        if (pAnswers[i].id == 'extra') {
+                            qValues[currentTab-1][2] = parseInt(pAnswers[i].value);
+                        }
+                        if (pAnswers[i].id == 'agree') {
+                            qValues[currentTab-1][3] = parseInt(pAnswers[i].value);
+                        }
+                        if (pAnswers[i].id == 'neuro') {
+                            qValues[currentTab-1][4] = parseInt(pAnswers[i].value);
+                        }
+                    }
+                };
+                console.log(qValues[currentTab-1])
+                shape(qValues[currentTab-1], radius/5, 1, angle, 3);
+            }
+        
+        pushAnswers();
+        pages[currentTab].style.display = "none";
+        currentTab = currentTab + n;
+        showTab(currentTab);
+        if (currentTab == 5) {
+            tabulateAnswers()
+        }
+
+        function stopThings() {
+            document.getElementById("submit").style.display = "none";
+            document.getElementById("reset").style.display = "inline";
+            setTimeout(location.reload, 180000)
+        }
+    }
+    
+  
+    function fixStepIndicator(n) {
+        // This function removes the "active" class of all steps...
+        let i, steps = document.getElementsByClassName("step");
+        for (i = 0; i < steps.length; i++) {
+        steps[i].className = steps[i].className.replace("active", "");
+        } 
+        //... and adds the "active" class on the current step:
+        steps[n].className += " active";
+    }
+    
+    let Oscore = 0, Cscore = 0, Escore = 0, Ascore = 0, Nscore = 0;
+    
+    //document.getElementById("submit").onclick =
+    function tabulateAnswers() {
+                let choices = document.getElementsByTagName("input");
+                for (i=0; i < choices.length; i++) {
+                    if (choices[i].checked) {
+                        if (choices[i].id == 'open') {
+                            Oscore = Oscore + parseInt(choices[i].value);
+                        }
+                        if (choices[i].id == 'consc') {
+                            Cscore = Cscore + parseInt(choices[i].value);
+                        }
+                        if (choices[i].id == 'extra') {
+                            Escore = Escore + parseInt(choices[i].value);
+                        }
+                        if (choices[i].id == 'agree') {
+                            Ascore = Ascore + parseInt(choices[i].value);
+                        }
+                        if (choices[i].id == 'neuro') {
+                            Nscore = Nscore + parseInt(choices[i].value);
+                        }
+                    }
+                };
+                console.log(Oscore, Cscore, Escore, Ascore, Nscore)
+                return Oscore, Cscore, Escore, Ascore, Nscore      
+            }
+</script>
+
+<script>
+    const canvas = document.getElementById('myCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let angle = 2*Math.PI/5;
+    let radius = 0
+    let move = angle
+
+
+    function initialize() {
+        window.addEventListener('resize', resizeCanvas, false);
+        resizeCanvas();
+    }
+
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        let x = ctx.canvas.width/2;
+        let y = ctx.canvas.height/2;
+        ctx.translate(x, y);
+        if (canvas.width <= canvas.height){
+            radius = 0.45*canvas.width
+        } else {
+            radius = 0.45*canvas.height
+        }
+        console.log(radius)
+    }
+
+    initialize();
+    setBackground();
+
+    let size = radius/5
+
+    function background(radius, alpha, angle, fade) {
+        ctx.fillStyle = 'rgba(255, 255, 255, '+fade+')';
+        ctx.fillRect(-ctx.canvas.width/2,-ctx.canvas.height/2, ctx.canvas.width, ctx.canvas.height);
+        ctx.beginPath();
+        ctx.moveTo(radius, 0)
+        for (let i=0; i<=5; i++) {
+        ctx.lineTo(radius*Math.cos(i*angle), radius*Math.sin(i*angle));
+        //ctx.closePath();
+        ctx.strokeStyle = 'rgba(0, 0, 0, '+alpha+')'
+        ctx.stroke();
+        }
+    }
+    
+    function grid(radius, alpha, angle) {
+        ctx.beginPath();
+        for (let i=0; i<=5; i++) {
+        ctx.lineTo(radius*Math.cos(i*angle), radius*Math.sin(i*angle));
+        ctx.moveTo(0,0);
+        ctx.strokeStyle = 'rgba(0, 0, 0, '+alpha+')'
+        ctx.stroke();
+        }
+    }
+    
+    function shape(values,size,alpha,angle, thick) {
+        ctx.beginPath();
+        ctx.lineWidth = thick;
+        for (let i=0; i<values.length; i++) {
+            ctx.lineTo(values[i]*size*Math.cos(i*angle),values[i]*size*Math.sin(i*angle));
+        }   
+        ctx.closePath();
+        ctx.strokeStyle = 'rgba(0, 0, 0, '+alpha+')'
+        ctx.stroke();
+    }
+
+    
+    function setBackground() {
+        let factor = [1, 0.8, 0.6, 0.4, 0.2];
+        for (let i=0; i<=factor.length; i++) {
+        background(radius*factor[i], factor[i]/2, angle, 0.01)
+        }
+        grid(radius*2, 0.1, angle)
+    }
+    
+    function getRan(min,max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min +1)) + min;
+    }
+
+    total = getRan(20,100)
+
+    function rotate(speed) {
+    move += speed;
+    }
+    function drawLoop() {
+        background(radius, 0.3, move, (0.2/Nscore));
+        shape(qValues[0], size, 0.7, angle, 1);
+        shape(qValues[1], size, 0.7, angle, 1);
+        shape(qValues[2], size, 0.7, angle, 1);
+        shape(qValues[3], size, 0.7, angle, 1);
+        ctx.rotate(0.1*Cscore)
+        rotate((Oscore+Cscore+Escore+Ascore+Nscore));
+        radius = radius+(0.02*Oscore);
+        size = size-(0.002*Escore);
+        //num = num+10
+        //if (num <= 900) {
+        //timeout = 1000-num}
+        setTimeout(drawLoop,33)
+        //window.requestAnimationFrame(drawLoop);
+    }
+</script>
+
+<script type="module">
+    ///////////////////////////////////////////// SOUND  
+    
+    let micEnv
+
+    document.getElementById("submit").onclick =
+        async function startLoops() {
+            const mic = new Tone.UserMedia(10);
+            //mic.open()
+            //await tabulateAnswers();
+            //console.log(Oscore, Cscore, Escore, Ascore, Nscore)
+
+            const gainout = new Tone.Gain(.9).toDestination();
+
+            //const mic = new Tone.UserMedia(10);
+            mic.open()
+            
+            micEnv = new Tone.AmplitudeEnvelope({
+                attack: 1,
+                decay: 1,
+                sustain: 1.0,
+                release: 1
+            });
+            mic.connect(micEnv);
+
+            const compout = new Tone.Compressor (-24, 4)
+
+
+            //class - functions for voices makevoice(effect)?? 
+            //3d spatialisation - binaural - make the listener move ??? 0/0/0 is listener position
+            //fft / filter bank mit envelope follower um frequenzbänder besser zu kontrollieren
+            
+            const delayTimes = [1,1,1,1,1]
+            const positions = [0,0,0,0,0]
+          
+            function makeLoop(fx, dly, p, speed) {
+                const gain = new Tone.Gain(1);
+                const delay = new Tone.Delay(dly);
+                const comp = new Tone.Compressor(-24, 4);
+                const pos = new Tone.Panner(p);
+                const lfo = new Tone.LFO({
+                    frequency: 0.005*speed, 
+                    min: -p, 
+                    max: p,
+                    type: "sine"}).start();
+                
+                
+                micEnv.connect(gain)
+                xfeedgain.connect(gain);
+                gain.connect(comp);
+                comp.connect(fx);
+                fx.connect(delay);
+                delay.connect(gain);
+                gain.connect(pos);
+                pos.connect(compout);
+                lfo.connect(pos.pan);
+                
+            }
+                        
+            const chorus = new Tone.Chorus(20, 20, 5);
+            const pitchdown = new Tone.PitchShift(-1);
+            const shift = new Tone.FrequencyShifter(0.5);
+            const pitchup = new Tone.PitchShift(+1);
+            const autofilt = new Tone.AutoFilter(0.1, 200, 1)
+
+            const effects = [chorus, shift, pitchdown, pitchup, autofilt]
+
+            const xfeed = new Tone.Delay(10,10)
+            const xfeedgain = new Tone.Gain(0.001)
+
+            const comb = new Tone.LowpassCombFilter(0.034,.4,500);
+            const rev = new Tone.Reverb({
+                decay: 5, 
+                wet: 0.8});
+
+            compout.connect(xfeed);
+            xfeed.connect(xfeedgain);
+            compout.connect(rev);
+            rev.connect(gainout);
+ 
+            function setParameters() {
+                //setInterval?
+                delayTimes[0] = 0.011*Oscore;
+                positions[0] = Oscore
+                chorus.delayTime = Oscore;
+                chorus.depth = Oscore/4;
+                
+                shift.frequency = Cscore;
+                delayTimes[1] = 0.017*Cscore;
+                positions[1] = Cscore
+
+                delayTimes[2] = 0.023*Escore;
+                pitchdown.pitch = -0.1*Escore;
+                positions[2] = -Escore
+                pitchup.pitch = 0.1*Ascore;
+                delayTimes[3] = 0.031*Ascore;
+                positions[3] = Ascore
+
+                autofilt.baseFrequency = (200*(Nscore/5));
+                delayTimes[4] = 0.041*Nscore;
+                positions[4] = Nscore
+            }
+            let scores = [Oscore, Cscore, Escore, Ascore, Nscore]
+            console.log(Oscore, Cscore, Escore, Ascore, Nscore)
+            
+            setParameters();
+            let i
+            //makeLoop(effects[0], delayTimes[0], positions[0][0], positions[0][1], positions[0][2])
+            
+            for (i=0; i<5; i++) {
+                makeLoop(effects[i], delayTimes[i], ((positions[i]-12,5)/10), scores[i])
+            }
+            //setParameters();
+            micEnv.triggerAttackRelease(2);
+            setTimeout(drawLoop,1000);
+            stopThings()
+            //netlify
+        }    
+    </script>
+
+</html>
