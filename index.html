@@ -27,50 +27,101 @@
       z-index: -2;
     }
 
-    #ipip {
-      margin: 100px auto;
-      font-family: sans-serif;
-      padding: 40px;
-      width: 70%;
-      min-width: 300px;
-      text-align: center;
-    }
-    
-
-    
     #info {
+        width:30%;
         position:fixed;
+        text-align:left;
     }
+
     h1 {
-      width: 100%;
-      font-size: 36px;
+        font-size: 42px;
+        margin:auto;
+    }
+
+    h2 {
+        font-size: 24px;
+        padding: 24px;
+        margin:auto;
     }
 
     h3 {
-      width: 100%;
-      font-size: 18px;
-      margin-top: 0px;
+        font-size: 18px;
+        margin: auto;
     }
-
 
     p {
-        width: 30%;
-        font-size: 17px;
-        padding: 50px;
-        text-align: left;
+        font-size: 18px;
         z-index: 1;
-        position: fixed;
-    }
-    
-    input {
-      padding: 10px;
-      width: 100%;
-      font-size: 17px;
-      font-family: sans-serif;
-      display: inline-block;
-      border: 1px solid #aaaaaa;
+        margin: 5%; 
     }
 
+    .test {
+        position: center;
+        margin: 100px auto;
+        font-family: monospace;
+        width: 50%;
+        font-size: medium;
+        min-width: 300px;
+        text-align: center;
+    }
+
+    .qcontainer{
+        padding: 40px;
+    }
+    
+    .slider {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 100%;
+        margin: auto; 
+        height: 15px;
+        outline: none;
+        background: #dddddd;
+        opacity: 0.5; /* Set transparency (for mouse-over effects on hover) */
+        -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+        transition: opacity .2s;
+    }
+
+    .slider:hover {
+        opacity: 0.7; 
+    }
+
+    .slider::-webkit-slider-thumb {
+        -webkit-appearance: none; 
+        appearance: none;
+        width: 20px; 
+        height: 15px; 
+        background: #000000;
+        cursor: pointer;
+    }
+
+    .slider::-moz-range-thumb {
+        width: 20px; 
+        height: 15px;
+        background: #000000; 
+        cursor: pointer; 
+    }
+
+    .sliderticks {
+        display: flex;
+        justify-content:space-between;
+        padding: 0 10px;
+    }
+
+    .sliderticks p {
+        position: relative;
+        display: flex;
+        white-space: nowrap;
+        justify-content: center;
+        overflow:visible;
+        width: 2px;
+        background: #D3D3D3;
+        height: 10px;
+        line-height: 50px;
+        margin: 0 0 20px 0;
+        font-size:14px;
+    }
+    
     .tab {
       display: none;
     }
@@ -110,423 +161,327 @@
 <body>
     <canvas id='myCanvas' style='position:fixed; left:0px; top:0px;'></canvas>
 
-    <div id="wrapper", style="text-align:center">
+    <div id="wrapper">
 
         <div id="info">
-        <h1>OCEAN SONG</h1>
-
-        <h3>Andreas Sommer</h3>
-        
-        <div class="tab">
-            <p>Some text to explain what this is doing. Proper questionnaire, allow using the mic etc...</p>
+            <h3>Andreas Sommer</h3>
+            <h1>OCEAN SONG</h1>
+            
+            <div class="tab">
+                <p>Well this is some fancy text about what this is supposed to do. It's a crazy experience and you will love it I guess. So let's jsut go ahead, it's psychological and such and you have to give me permission to use your microphone because I will spy on you and then mirror it back to you and such.</p>
+            </div>
         </div>
-        </div>
         
-            <form id="ipip">
+            <div class="test">
 
                 <div class="tab">
-                    <!-- Question 1 -->
-                    <h2>I am the life of the party.</h2>
-
-                    <input type="radio" id="extra" name="q1" value="1">
-                    <label class= "radio-inline">Very Inaccurate</label>
-
-                    <label class = "radio-inline"><input type="radio" id="extra" name="q1" value="2">
-                        Moderately Inaccurate
-                    </label>
-                    <label class = "radio-inline"><input type="radio" id="extra" name="q1" value="3">
-                        Neither Accurate nor Inaccurate
-                    </label>
-                    <label class = "radio-inline"><input type="radio" id="extra" name="q1" value="4">
-                        Moderatley Accurate
-                    </label>
-                    <label class = "radio-inline"><input type="radio" id="extra" name="q1" value="5">
-                        Very Accurate
-                    </label>
-
-                    <!-- Question 2 -->
-                    <h2>I sympathize with others' feelings.</h2>
                     
-                    <label><input type="radio" id="agree" name="q2" value="1">
-                        Very Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="agree" name="q2" value="2">
-                        Moderately Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="agree" name="q2" value="3">
-                        Neither Accurate nor Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="agree" name="q2" value="4">
-                        Moderatley Accurate
-                    </label><br />
-                    <label><input type="radio" id="agree" name="q2" value="5">
-                        Very Accurate
-                    </label><br />
+                    <div class="qcontainer">
+    <!-- Question 1 -->
+                        <h2>I am the life of the party.</h2>
 
-                    <!-- Question 3 -->
-                    <h2>I get chores done right away.</h2>
+                        <input type="range" min="1" max="5" value="3" class="slider" id="extra" name="q1" placeholder="0">
+                            <div class="sliderticks">
+                                <p>Very Inaccurate</p>
+                                <p></p>
+                                <p>Neither Accurate nor Accurate</p>
+                                <p></p>
+                                <p>Very Accurate</p>
+                            </div>
+                    </div>
                     
-                    <label><input type="radio" id="consc" name="q3" value="1">
-                        Very Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="consc" name="q3" value="2">
-                        Moderately Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="consc" name="q3" value="3">
-                        Neither Accurate nor Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="consc" name="q3" value="4">
-                        Moderatley Accurate
-                    </label><br />
-                    <label><input type="radio" id="consc" name="q3" value="5">
-                        Very Accurate
-                    </label><br />
+                    <div class="qcontainer">
+    <!-- Question 2 -->
+                        <h2>I sympathize with others' feelings.</h2>
 
-                    <!-- Question 4 -->
-                    <h2>I have frequent mood swings.</h2>
-                    
-                    <label><input type="radio" id="neuro" name="q4" value="1">
-                        Very Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="neuro" name="q4" value="2">
-                        Moderately Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="neuro" name="q4" value="3">
-                        Neither Accurate nor Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="neuro" name="q4" value="4">
-                        Moderatley Accurate
-                    </label><br />
-                    <label><input type="radio" id="neuro" name="q4" value="5">
-                        Very Accurate
-                    </label><br />
+                        <input type="range" min="1" max="5" value="3" class="slider" id="agree" name="q2" placeholder="0">
+                            <div class="sliderticks">
+                                <p>Very Inaccurate</p>
+                                <p></p>
+                                <p>Neither Accurate nor Inaccurate</p>
+                                <p></p>
+                                <p>Very Accurate</p>
+                            </div>
+                    </div>
 
-                    <!-- Question 5 -->
-                    <h2>I have a vivid imagination.</h2>
+                    <div class="qcontainer">
+    <!-- Question 3 -->
+                        <h2>I get chores done right away.</h2>
                     
-                    <label><input type="radio" id="open" name="q5" value="1">
-                        Very Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="open" name="q5" value="2">
-                        Moderately Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="open" name="q5" value="3">
-                        Neither Accurate nor Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="open" name="q5" value="4">
-                        Moderatley Accurate
-                    </label><br />
-                    <label><input type="radio" id="open" name="q5" value="5">
-                        Very Accurate
-                    </label><br />
+                        <input type="range" min="1" max="5" value="3" class="slider" id="consc" name="q3" placeholder="0">
+                            <div class="sliderticks">
+                                <p>Very Inaccurate</p>
+                                <p></p>
+                                <p>Neither Accurate nor Inaccurate</p>
+                                <p></p>
+                                <p>Very Accurate</p>
+                            </div>
+                    </div>
+
+                    <div class="qcontainer">
+    <!-- Question 4 -->
+                        <h2>I have frequent mood swings.</h2>
+                        
+                        <input type="range" min="1" max="5" value="3" class="slider" id="neuro" name="q4" placeholder="0">
+                            <div class="sliderticks">
+                                <p>Very Inaccurate</p>
+                                <p></p>
+                                <p>Neither Accurate nor Inaccurate</p>
+                                <p></p>
+                                <p>Very Accurate</p>
+                            </div>
+                    </div>
+
+                    <div class="qcontainer">
+    <!-- Question 5 -->
+                        <h2>I have a vivid imagination.</h2>
+                    
+                        <input type="range" min="1" max="5" value="3" class="slider" id="open" name="q5" placeholder="0">
+                            <div class="sliderticks">
+                                <p>Very Inaccurate</p>
+                                <p></p>
+                                <p>Neither Accurate nor Inaccurate</p>
+                                <p></p>
+                                <p>Very Accurate</p>
+                            </div>
+                    </div>
                 </div>
 
                 <div class="tab">
-                    <!-- Question 6 -->
-                    <h2>I don't talk a lot.</h2>
                     
-                    <label><input type="radio" id="extra" name="q6" value="5">
-                        Very Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="extra" name="q6" value="4">
-                        Moderately Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="extra" name="q6" value="3">
-                        Neither Accurate nor Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="extra" name="q6" value="2">
-                        Moderatley Accurate
-                    </label><br />
-                    <label><input type="radio" id="extra" name="q6" value="1">
-                        Very Accurate
-                    </label><br />
+                    <div class="qcontainer">
+    <!-- Question 6 -->
+                        <h2>I don't talk a lot.</h2>
 
-                    <!-- Question 7 -->
-                    <h2>I am not interested in other people's problems.</h2>
+                        <input type="range" min="1" max="5" value="3" class="slider" id="extra" name="q6" placeholder="1">
+                            <div class="sliderticks">
+                                <p>Very Inaccurate</p>
+                                <p></p>
+                                <p>Neither Accurate nor Accurate</p>
+                                <p></p>
+                                <p>Very Accurate</p>
+                            </div>
+                    </div>
                     
-                    <label><input type="radio" id="agree" name="q7" value="5">
-                        Very Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="agree" name="q7" value="4">
-                        Moderately Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="agree" name="q7" value="3">
-                        Neither Accurate nor Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="agree" name="q7" value="2">
-                        Moderatley Accurate
-                    </label><br />
-                    <label><input type="radio" id="agree" name="q7" value="1">
-                        Very Accurate
-                    </label><br />
+                    <div class="qcontainer">
+    <!-- Question 7 -->
+                        <h2>I am not interested in other people's problems.</h2>
 
-                    <!-- Question 8 -->
-                    <h2>I often forget to put things back in their proper place.</h2>
-                    
-                    <label><input type="radio" id="consc" name="q8" value="5">
-                        Very Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="consc" name="q8" value="4">
-                        Moderately Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="consc" name="q8" value="3">
-                        Neither Accurate nor Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="consc" name="q8" value="2">
-                        Moderatley Accurate
-                    </label><br />
-                    <label><input type="radio" id="consc" name="q8" value="1">
-                        Very Accurate
-                    </label><br />
+                        <input type="range" min="1" max="5" value="3" class="slider" id="agree" name="q7" placeholder="1">
+                            <div class="sliderticks">
+                                <p>Very Inaccurate</p>
+                                <p></p>
+                                <p>Neither Accurate nor Inaccurate</p>
+                                <p></p>
+                                <p>Very Accurate</p>
+                            </div>
+                    </div>
 
-                    <!-- Question 9 -->
-                    <h2>I am relaxed most of the time.</h2>
+                    <div class="qcontainer">
+    <!-- Question 8 -->
+                        <h2>I often forget to put things back in their proper place.</h2>
                     
-                    <label><input type="radio" id="neuro" name="q9" value="5">
-                        Very Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="neuro" name="q9" value="4">
-                        Moderately Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="neuro" name="q9" value="3">
-                        Neither Accurate nor Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="neuro" name="q9" value="2">
-                        Moderatley Accurate
-                    </label><br />
-                    <label><input type="radio" id="neuro" name="q9" value="1">
-                        Very Accurate
-                    </label><br />
+                        <input type="range" min="1" max="5" value="3" class="slider" id="consc" name="q8" placeholder="1">
+                            <div class="sliderticks">
+                                <p>Very Inaccurate</p>
+                                <p></p>
+                                <p>Neither Accurate nor Inaccurate</p>
+                                <p></p>
+                                <p>Very Accurate</p>
+                            </div>
+                    </div>
 
-                    <!-- Question 10 -->
-                    <h2>I am not interested in abstract ideas.</h2>
-                    
-                    <label><input type="radio" id="open" name="q10" value="5">
-                        Very Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="open" name="q10" value="4">
-                        Moderately Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="open" name="q10" value="3">
-                        Neither Accurate nor Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="open" name="q10" value="2">
-                        Moderatley Accurate
-                    </label><br />
-                    <label><input type="radio" id="open" name="q10" value="1">
-                        Very Accurate
-                    </label><br />
+                    <div class="qcontainer">
+    <!-- Question 9 -->
+                        <h2>I am relaxed most of the time.</h2>
+                        
+                        <input type="range" min="1" max="5" value="3" class="slider" id="neuro" name="q9" placeholder="1">
+                            <div class="sliderticks">
+                                <p>Very Inaccurate</p>
+                                <p></p>
+                                <p>Neither Accurate nor Inaccurate</p>
+                                <p></p>
+                                <p>Very Accurate</p>
+                            </div>
+                    </div>
+
+                    <div class="qcontainer">
+    <!-- Question 10 -->
+                        <h2>I am not interested in abstract ideas.</h2>
+                        
+                        <input type="range" min="1" max="5" value="3" class="slider" id="open" name="q10" placeholder="1">
+                            <div class="sliderticks">
+                                <p>Very Inaccurate</p>
+                                <p></p>
+                                <p>Neither Accurate nor Inaccurate</p>
+                                <p></p>
+                                <p>Very Accurate</p>
+                            </div>
+                    </div>
                 </div>
 
                 <div class="tab">
-                    <!-- Question 11 -->
-                    <h2>I talk to a lot of different people at parties.</h2>
-
-                    <label><input type="radio" id="extra" name="q11" value="1">
-                        Very Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="extra" name="q11" value="2">
-                        Moderately Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="extra" name="q11" value="3">
-                        Neither Accurate nor Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="extra" name="q11" value="4">
-                        Moderatley Accurate
-                    </label><br />
-                    <label><input type="radio" id="extra" name="q11" value="5">
-                        Very Accurate
-                    </label><br />
-
-                    <!-- Question 12 -->
-                    <h2>I feel others' emotions.</h2>
                     
-                    <label><input type="radio" id="agree" name="q12" value="1">
-                        Very Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="agree" name="q12" value="2">
-                        Moderately Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="agree" name="q12" value="3">
-                        Neither Accurate nor Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="agree" name="q12" value="4">
-                        Moderatley Accurate
-                    </label><br />
-                    <label><input type="radio" id="agree" name="q12" value="5">
-                        Very Accurate
-                    </label><br />
+                    <div class="qcontainer">
+    <!-- Question 11 -->
+                        <h2>I talk to a lot of different people at parties.</h2>
 
-                    <!-- Question 13 -->
-                    <h2>I like order.</h2>
+                        <input type="range" min="1" max="5" value="3" class="slider" id="extra" name="q11" placeholder="0">
+                            <div class="sliderticks">
+                                <p>Very Inaccurate</p>
+                                <p></p>
+                                <p>Neither Accurate nor Accurate</p>
+                                <p></p>
+                                <p>Very Accurate</p>
+                            </div>
+                    </div>
                     
-                    <label><input type="radio" id="consc" name="q13" value="1">
-                        Very Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="consc" name="q13" value="2">
-                        Moderately Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="consc" name="q13" value="3">
-                        Neither Accurate nor Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="consc" name="q13" value="4">
-                        Moderatley Accurate
-                    </label><br />
-                    <label><input type="radio" id="consc" name="q13" value="5">
-                        Very Accurate
-                    </label><br />
+                    <div class="qcontainer">
+    <!-- Question 12 -->
+                        <h2>I feel others' emotions.</h2>
 
-                    <!-- Question 14 -->
-                    <h2>I get upset easily.</h2>
-                    
-                    <label><input type="radio" id="neuro" name="q14" value="1">
-                        Very Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="neuro" name="q14" value="2">
-                        Moderately Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="neuro" name="q14" value="3">
-                        Neither Accurate nor Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="neuro" name="q14" value="4">
-                        Moderatley Accurate
-                    </label><br />
-                    <label><input type="radio" id="neuro" name="q14" value="5">
-                        Very Accurate
-                    </label><br />
+                        <input type="range" min="1" max="5" value="3" class="slider" id="agree" name="q12" placeholder="0">
+                            <div class="sliderticks">
+                                <p>Very Inaccurate</p>
+                                <p></p>
+                                <p>Neither Accurate nor Inaccurate</p>
+                                <p></p>
+                                <p>Very Accurate</p>
+                            </div>
+                    </div>
 
-                    <!-- Question 15 -->
-                    <h2>I have difficulty understanding abstract ideas.</h2>
+                    <div class="qcontainer">
+    <!-- Question 13 -->
+                        <h2>I like order.</h2>
                     
-                    <label><input type="radio" id="open" name="q15" value="5">
-                        Very Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="open" name="q15" value="4">
-                        Moderately Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="open" name="q15" value="3">
-                        Neither Accurate nor Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="open" name="q15" value="2">
-                        Moderatley Accurate
-                    </label><br />
-                    <label><input type="radio" id="open" name="q15" value="1">
-                        Very Accurate
-                    </label><br />
+                        <input type="range" min="1" max="5" value="3" class="slider" id="consc" name="q13" placeholder="0">
+                            <div class="sliderticks">
+                                <p>Very Inaccurate</p>
+                                <p></p>
+                                <p>Neither Accurate nor Inaccurate</p>
+                                <p></p>
+                                <p>Very Accurate</p>
+                            </div>
+                    </div>
+
+                    <div class="qcontainer">
+    <!-- Question 14 -->
+                        <h2>I get upset easily.</h2>
+                        
+                        <input type="range" min="1" max="5" value="3" class="slider" id="neuro" name="q14" placeholder="0">
+                            <div class="sliderticks">
+                                <p>Very Inaccurate</p>
+                                <p></p>
+                                <p>Neither Accurate nor Inaccurate</p>
+                                <p></p>
+                                <p>Very Accurate</p>
+                            </div>
+                    </div>
+
+                    <div class="qcontainer">
+    <!-- Question 15 -->
+                        <h2>I have difficulty understanding abstract ideas.</h2>
+                    
+                        <input type="range" min="1" max="5" value="3" class="slider" id="open" name="q15" placeholder="1">
+                            <div class="sliderticks">
+                                <p>Very Inaccurate</p>
+                                <p></p>
+                                <p>Neither Accurate nor Inaccurate</p>
+                                <p></p>
+                                <p>Very Accurate</p>
+                            </div>
+                    </div>
                 </div>
 
                 <div class="tab">
-                    <!-- Question 16 -->
-                    <h2>I keep in the background.</h2>
                     
-                    <label><input type="radio" id="extra" name="q16" value="5">
-                        Very Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="extra" name="q16" value="4">
-                        Moderately Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="extra" name="q16" value="3">
-                        Neither Accurate nor Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="extra" name="q16" value="2">
-                        Moderatley Accurate
-                    </label><br />
-                    <label><input type="radio" id="extra" name="q16" value="1">
-                        Very Accurate
-                    </label><br />
+                    <div class="qcontainer">
+    <!-- Question 16 -->
+                        <h2>I keep in the background.</h2>
 
-                    <!-- Question 17 -->
-                    <h2>I am not really interested in others.</h2>
+                        <input type="range" min="1" max="5" value="3" class="slider" id="extra" name="q16" placeholder="1">
+                            <div class="sliderticks">
+                                <p>Very Inaccurate</p>
+                                <p></p>
+                                <p>Neither Accurate nor Accurate</p>
+                                <p></p>
+                                <p>Very Accurate</p>
+                            </div>
+                    </div>
                     
-                    <label><input type="radio" id="agree" name="q17" value="5">
-                        Very Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="agree" name="q17" value="4">
-                        Moderately Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="agree" name="q17" value="3">
-                        Neither Accurate nor Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="agree" name="q17" value="2">
-                        Moderatley Accurate
-                    </label><br />
-                    <label><input type="radio" id="agree" name="q17" value="1">
-                        Very Accurate
-                    </label><br />
+                    <div class="qcontainer">
+    <!-- Question 17 -->
+                        <h2>I am not really interested in others.</h2>
 
-                    <!-- Question 18 -->
-                    <h2>I make a mess of things.</h2>
-                    
-                    <label><input type="radio" id="consc" name="q18" value="5">
-                        Very Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="consc" name="q18" value="4">
-                        Moderately Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="consc" name="q18" value="3">
-                        Neither Accurate nor Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="consc" name="q18" value="2">
-                        Moderatley Accurate
-                    </label><br />
-                    <label><input type="radio" id="consc" name="q18" value="1">
-                        Very Accurate
-                    </label><br />
+                        <input type="range" min="1" max="5" value="3" class="slider" id="agree" name="q17" placeholder="1">
+                            <div class="sliderticks">
+                                <p>Very Inaccurate</p>
+                                <p></p>
+                                <p>Neither Accurate nor Inaccurate</p>
+                                <p></p>
+                                <p>Very Accurate</p>
+                            </div>
+                    </div>
 
-                    <!-- Question 19 -->
-                    <h2>I seldom feel blue.</h2>
+                    <div class="qcontainer">
+    <!-- Question 18 -->
+                        <h2>I make a mess of things.</h2>
                     
-                    <label><input type="radio" id="neuro" name="q19" value="5">
-                        Very Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="neuro" name="q19" value="4">
-                        Moderately Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="neuro" name="q19" value="3">
-                        Neither Accurate nor Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="neuro" name="q19" value="2">
-                        Moderatley Accurate
-                    </label><br />
-                    <label><input type="radio" id="neuro" name="q19" value="1">
-                        Very Accurate
-                    </label><br />
+                        <input type="range" min="1" max="5" value="3" class="slider" id="consc" name="q18" placeholder="1">
+                            <div class="sliderticks">
+                                <p>Very Inaccurate</p>
+                                <p></p>
+                                <p>Neither Accurate nor Inaccurate</p>
+                                <p></p>
+                                <p>Very Accurate</p>
+                            </div>
+                    </div>
 
-                    <!-- Question 20 -->
-                    <h2>I do not have a good imagination.</h2>
+                    <div class="qcontainer">
+    <!-- Question 19 -->
+                        <h2>I seldom feel blue.</h2>
+                        
+                        <input type="range" min="1" max="5" value="3" class="slider" id="neuro" name="q19" placeholder="1">
+                            <div class="sliderticks">
+                                <p>Very Inaccurate</p>
+                                <p></p>
+                                <p>Neither Accurate nor Inaccurate</p>
+                                <p></p>
+                                <p>Very Accurate</p>
+                            </div>
+                    </div>
+
+                    <div class="qcontainer">
+    <!-- Question 20 -->
+                        <h2>I do not have a good imagination.</h2>
                     
-                    <label><input type="radio" id="open" name="q20" value="5">
-                        Very Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="open" name="q20" value="4">
-                        Moderately Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="open" name="q20" value="3">
-                        Neither Accurate nor Inaccurate
-                    </label><br />
-                    <label><input type="radio" id="open" name="q20" value="2">
-                        Moderatley Accurate
-                    </label><br />
-                    <label><input type="radio" id="open" name="q20" value="1">
-                        Very Accurate
-                    </label><br />
-                </div>
-                                              
+                        <input type="range" min="1" max="5" value="3" class="slider" id="open" name="q20" placeholder="1">
+                            <div class="sliderticks">
+                                <p>Very Inaccurate</p>
+                                <p></p>
+                                <p>Neither Accurate nor Inaccurate</p>
+                                <p></p>
+                                <p>Very Accurate</p>
+                            </div>
+                    </div>
+                </div>                                    
                 <div>
-                    <div style="position:fixed; bottom:5%; width:100%"">
+                    <div style="position:fixed; bottom:5%; width:100%">
                         <button type="button" id="start" onclick="startThings(1)">Start</button>
                         <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
                         <button type="button" id="submit">Submit</button>
                         <button type="button" id="reset" onclick="location.reload()">Reset</button>
                     </div>
-                </div>                
-            </form>
-        
-        <div class="tab">
-            <p>Some text about what to do next and thanks and stuff.</p>
+                </div>
+            </div>                
+
+        <div id="info">
+            <div class="tab">
+                <p>Some text about what to do next and thanks and stuff.</p>
+            </div>
         </div>
 
-        <div style="position:fixed; bottom:1%; width:100%;">
+        <div style="position:fixed; bottom:1%; width:100%;text-align:center">
             <span class="step"></span>
             <span class="step"></span>
             <span class="step"></span>
@@ -583,30 +538,46 @@
     }
     
     function pushAnswers(cTab) {
-            let pAnswers = pages[cTab].getElementsByTagName('input');
-                console.log(pAnswers);
-                for (i=0; i < pAnswers.length; i++) {
-                    if (pAnswers[i].checked) {
-                        if (pAnswers[i].id == 'open') {
-                            qValues[cTab-1][0] = parseInt(pAnswers[i].value);
-                        }
-                        if (pAnswers[i].id == 'consc') {
-                            qValues[cTab-1][1] = parseInt(pAnswers[i].value);
-                        }
-                        if (pAnswers[i].id == 'extra') {
-                            qValues[cTab-1][2] = parseInt(pAnswers[i].value);
-                        }
-                        if (pAnswers[i].id == 'agree') {
-                            qValues[cTab-1][3] = parseInt(pAnswers[i].value);
-                        }
-                        if (pAnswers[i].id == 'neuro') {
-                            qValues[cTab-1][4] = parseInt(pAnswers[i].value);
-                        }
+        let choices = pages[cTab].getElementsByTagName('input');
+            console.log(choices[1].value);
+            for (i=0; i < choices.length; i++) {
+                if (choices[i].placeholder == 1) {
+                    if (choices[i].id == 'open') {
+                        qValues[cTab-1][0] = (6-parseInt(choices[i].value));
+                    }
+                    if (choices[i].id == 'consc') {
+                        qValues[cTab-1][1] = (6-parseInt(choices[i].value));
+                    }
+                    if (choices[i].id == 'extra') {
+                        qValues[cTab-1][2] = (6-parseInt(choices[i].value));
+                    }
+                    if (choices[i].id == 'agree') {
+                        qValues[cTab-1][3] = (6-parseInt(choices[i].value));
+                    }
+                    if (choices[i].id == 'neuro') {
+                        qValues[cTab-1][4] = (6-parseInt(choices[i].value));
+                    }
+                } else {
+                    if (choices[i].id == 'open') {
+                        qValues[cTab-1][0] = parseInt(choices[i].value);
+                    }
+                    if (choices[i].id == 'consc') {
+                        qValues[cTab-1][1] = parseInt(choices[i].value);
+                    }
+                    if (choices[i].id == 'extra') {
+                        qValues[cTab-1][2] = parseInt(choices[i].value);
+                    }
+                    if (choices[i].id == 'agree') {
+                        qValues[cTab-1][3] = parseInt(choices[i].value);
+                    }
+                    if (choices[i].id == 'neuro') {
+                        qValues[cTab-1][4] = parseInt(choices[i].value);
                     }
                 };
-                console.log(qValues[currentTab-1])
-                shape(qValues[currentTab-1], radius/5, 1, angle, 3);
             }
+            console.log(qValues[currentTab-1]);
+            shape(qValues[currentTab-1], radius/5, 1, angle, 3);
+        }
 
     function nextPrev(n) {            
         pushAnswers(currentTab);
@@ -614,7 +585,7 @@
         currentTab = currentTab + n;
         showTab(currentTab);
         if (currentTab == 5) {
-                tabulateAnswers()
+            tabulateAnswers()
         } 
     }
     
@@ -631,29 +602,45 @@
     
     //document.getElementById("submit").onclick =
     function tabulateAnswers() {
-                let choices = document.getElementsByTagName("input");
-                for (i=0; i < choices.length; i++) {
-                    if (choices[i].checked) {
-                        if (choices[i].id == 'open') {
-                            Oscore = Oscore + parseInt(choices[i].value);
-                        }
-                        if (choices[i].id == 'consc') {
-                            Cscore = Cscore + parseInt(choices[i].value);
-                        }
-                        if (choices[i].id == 'extra') {
-                            Escore = Escore + parseInt(choices[i].value);
-                        }
-                        if (choices[i].id == 'agree') {
-                            Ascore = Ascore + parseInt(choices[i].value);
-                        }
-                        if (choices[i].id == 'neuro') {
-                            Nscore = Nscore + parseInt(choices[i].value);
-                        }
+        let choices = document.getElementsByTagName("input");
+            for(i=0; i<choices.length; i++) {
+                if (choices[i].placeholder == 1) {
+                    if (choices[i].id == 'open') {
+                        Oscore = Oscore + (6-parseInt(choices[i].value));
                     }
-                };
-                console.log(Oscore, Cscore, Escore, Ascore, Nscore)
-                return Oscore, Cscore, Escore, Ascore, Nscore      
+                    if (choices[i].id == 'consc') {
+                        Cscore = Cscore + (6-parseInt(choices[i].value));
+                    }
+                    if (choices[i].id == 'extra') {
+                        Escore = Escore + (6-parseInt(choices[i].value));
+                    }
+                    if (choices[i].id == 'agree') {
+                        Ascore = Ascore + (6-parseInt(choices[i].value));
+                    }
+                    if (choices[i].id == 'neuro') {
+                        Nscore = Nscore + (6-parseInt(choices[i].value));
+                    }
+                } else {
+                    if (choices[i].id == 'open') {
+                        Oscore = Oscore + parseInt(choices[i].value);
+                    }
+                    if (choices[i].id == 'consc') {
+                        Cscore = Cscore + parseInt(choices[i].value);
+                    }
+                    if (choices[i].id == 'extra') {
+                        Escore = Escore + parseInt(choices[i].value);
+                    }
+                    if (choices[i].id == 'agree') {
+                        Ascore = Ascore + parseInt(choices[i].value);
+                    }
+                    if (choices[i].id == 'neuro') {
+                        Nscore = Nscore + parseInt(choices[i].value);
+                    }
+                }
             }
+            console.log(Oscore, Cscore, Escore, Ascore, Nscore)
+            return Oscore, Cscore, Escore, Ascore, Nscore 
+    }
 </script>
 
 <script>
@@ -721,10 +708,10 @@
         }
     }
     
-    function shape(values,size,alpha,angle, thick) {
+    function shape(values,size,alpha,angle,thick) {
         ctx.beginPath();
         ctx.lineWidth = thick;
-        for (let i=0; i<values.length; i++) {
+        for (let i=0; i<  values.length; i++) {
             ctx.lineTo(values[i]*size*Math.cos(i*angle),values[i]*size*Math.sin(i*angle));
         }   
         ctx.closePath();
