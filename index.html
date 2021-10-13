@@ -609,12 +609,9 @@
             }
 
     function nextPrev(n) {            
-        pushAnswers(currentTab, pages);
-
+        pushAnswers(currentTab);
         pages[currentTab].style.display = "none";
-
         currentTab = currentTab + n;
-
         showTab(currentTab);
         if (currentTab == 5) {
                 tabulateAnswers()
@@ -623,12 +620,10 @@
     
   
     function fixStepIndicator(n) {
-        // This function removes the "active" class of all steps...
         let i, steps = document.getElementsByClassName("step");
         for (i = 0; i < steps.length; i++) {
         steps[i].className = steps[i].className.replace("active", "");
         } 
-        //... and adds the "active" class on the current step:
         steps[n].className += " active";
     }
     
@@ -895,7 +890,7 @@
             function stopThings() {
                 document.getElementById("submit").style.display = "none";
                 document.getElementById("reset").style.display = "inline";
-                setTimeout(location.reload, 180000)
+                setTimeout(location.reload, 18000)
             }
 
             stopThings()
