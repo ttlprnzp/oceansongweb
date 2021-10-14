@@ -794,7 +794,7 @@
             });
             mic.connect(micEnv);
 
-            const compout = new Tone.Compressor (-24, 4)
+            const compout = new Tone.Compressor (-24, 8)
 
 
             //class - functions for voices makevoice(effect)?? 
@@ -818,11 +818,11 @@
                     type: "sine"
                 }).start();
                 const lfo2 = new Tone.LFO({
-                    frequency: 0.001*speed, 
-                    min: 0, 
-                    max: 0.001,
-                    phase: 360/speed,
-                    type: "sawtooth"
+                    frequency: 0.01*speed, 
+                    min: 0.01, 
+                    max: 0.1,
+                    phase: 90/speed,
+                    type: "sine"
                 }).start();
                 const lfo3 = new Tone.LFO({
                     frequency: 0.1*speed, 
@@ -842,7 +842,7 @@
                 gain.connect(pos);
                 pos.connect(compout);
                 lfo.connect(pos.pan);
-                lfo2.connect(xfeedgain.gain)
+                lfo2.connect(lfo3.frequency)
                 lfo3.connect(delay.delayTime)
             }
                         
@@ -855,15 +855,23 @@
                 baseFrequency: 200, 
                 octaves: 1,
             })
+            const lfo2 = new Tone.LFO({
+                    frequency: 0.1*Ascore, 
+                    min: 0, 
+                    max: 0.1,
+                    phase: 360/Ascore,
+                    type: "square"
+                }).start();
+
             const effects = [chorus, shift, pitchdown, pitchup, autofilt]
 
-            const xfeed = new Tone.Delay(10,10)
+            const xfeed = new Tone.Delay(10, 30)
             const xfeedgain = new Tone.Gain(0.001)
 
             const rev = new Tone.Reverb({
                 decay: 5, 
                 wet: 0.7});
-
+            lfo2.connect(xfeedgain.gain);
             compout.connect(xfeed);
             xfeed.connect(xfeedgain);
             compout.connect(rev);
@@ -881,13 +889,14 @@
                 positions[1] = Cscore
 
                 delayTimes[2] = 0.023*Escore;
-                pitchdown.pitch = -0.1*Escore;
+                pitchdown.pitch = -0.01*Escore;
                 positions[2] = -Escore
-                pitchup.pitch = 0.1*Ascore;
+                pitchup.pitch = 0.01*Ascore;
                 delayTimes[3] = 0.031*Ascore;
                 positions[3] = Ascore
 
                 autofilt.baseFrequency = (100*(Nscore/4));
+                autofilt.frequency.rampTo(0.01*(Nscore**3));
                 autofilt.octaves = 0.2*Nscore;
                 delayTimes[4] = 0.041*Nscore;
                 positions[4] = Nscore
