@@ -837,6 +837,7 @@
                 
                 
                 micEnv.connect(gain);
+                noisegain.connect(gain);
                 xfeedgain.connect(gain);
                 gain.connect(comp);
                 comp.connect(fx);
@@ -848,7 +849,11 @@
                 lfo2.connect(lfo3.frequency)
                 lfo3.connect(delay.delayTime)
             }
-                        
+
+            const noise = new Tone.Noise("brown");
+            const noisegain = new Tone.Gain(0.001);
+            noise.connect(noisegain);
+
             const chorus = new Tone.Chorus(20, 20, 5);
             const pitchdown = new Tone.PitchShift(-1);
             const shift = new Tone.FrequencyShifter(0.5);
