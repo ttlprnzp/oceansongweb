@@ -794,7 +794,7 @@
             });
             mic.connect(micEnv);
 
-            const compout = new Tone.Compressor (-24, 8)
+            const compout = new Tone.Compressor (-24, 4)
 
 
             //class - functions for voices makevoice(effect)?? 
@@ -803,11 +803,14 @@
             
             const delayTimes = [1,1,1,1,1]
             const positions = [0,0,0,0,0]
+            function getRndInteger(min, max) {
+                return Math.floor(Math.random() * (max - min + 1) ) + min;
+            }
           
             function makeLoop(fx, dly, p, speed) {
-                const gain = new Tone.Gain(1);
+                const gain = new Tone.Gain(0.99);
                 const filter = new Tone.Filter(speed*200, "lowpass")
-                const delay = new Tone.Delay(dly);
+                const delay = new Tone.Delay(dly,2);
                 const comp = new Tone.Compressor(-24, 4);
                 const pos = new Tone.Panner(p);
                 const lfo = new Tone.LFO({
@@ -818,10 +821,10 @@
                     type: "sine"
                 }).start();
                 const lfo2 = new Tone.LFO({
-                    frequency: 0.01*speed, 
-                    min: 0.01, 
-                    max: 0.1,
-                    phase: 90/speed,
+                    frequency: 0.001*speed, 
+                    min: 0.0, 
+                    max: 0.001,
+                    phase: 360/speed,
                     type: "sine"
                 }).start();
                 const lfo3 = new Tone.LFO({
@@ -829,7 +832,7 @@
                     min: dly, 
                     max: dly*2,
                     phase: 180/speed,
-                    type: "square"
+                    type: "triangle"
                 }).start();
                 
                 
@@ -840,7 +843,7 @@
                 fx.connect(delay);
                 delay.connect(gain);
                 gain.connect(pos);
-                pos.connect(compout);
+                pos.connect(filterout);
                 lfo.connect(pos.pan);
                 lfo2.connect(lfo3.frequency)
                 lfo3.connect(delay.delayTime)
@@ -858,47 +861,51 @@
             const lfo2 = new Tone.LFO({
                     frequency: 0.1*Ascore, 
                     min: 0, 
-                    max: 0.1,
+                    max: 0.005,
                     phase: 360/Ascore,
-                    type: "square"
+                    type: "sine"
                 }).start();
 
             const effects = [chorus, shift, pitchdown, pitchup, autofilt]
 
-            const xfeed = new Tone.Delay(10, 30)
+            const xfeed = new Tone.Delay(20, 30)
             const xfeedgain = new Tone.Gain(0.001)
+            const filterout = new Tone.Filter(30, "highpass")
 
             const rev = new Tone.Reverb({
                 decay: 5, 
                 wet: 0.7});
-            lfo2.connect(xfeedgain.gain);
+            lfo2.connect(xfeedgain.gain);            
+            filterout.connect(compout);
             compout.connect(xfeed);
             xfeed.connect(xfeedgain);
-            compout.connect(rev);
+            filterout.connect(rev);
             rev.connect(gainout);
  
             function setParameters() {
                 //setInterval?
-                delayTimes[0] = 0.011*Oscore;
+                delayTimes[0] = 0.05*Math.random()*Oscore;
                 positions[0] = Oscore
-                chorus.delayTime = Oscore;
+                chorus.frequency.rampTo(0.1*Oscore)
+                chorus.delayTime = (Oscore)**2;
                 chorus.depth = Oscore/4;
                 
-                shift.frequency = Cscore;
-                delayTimes[1] = 0.017*Cscore;
+                shift.frequency = (12.5-Cscore)**2;
+                delayTimes[1] = 0.05*Math.random()*Cscore;
                 positions[1] = Cscore
 
-                delayTimes[2] = 0.023*Escore;
-                pitchdown.pitch = -0.01*Escore;
+                delayTimes[2] = 0.01*Math.random()*Escore;
+                pitchdown.pitch = -0.05*Escore;
                 positions[2] = -Escore
-                pitchup.pitch = 0.01*Ascore;
-                delayTimes[3] = 0.031*Ascore;
+                
+                pitchup.pitch = Ascore/2;
+                delayTimes[3] = 0.05*Math.random()*Ascore;
                 positions[3] = Ascore
 
-                autofilt.baseFrequency = (100*(Nscore/4));
+                autofilt.baseFrequency = (2000/Nscore);
                 autofilt.frequency.rampTo(0.01*(Nscore**3));
-                autofilt.octaves = 0.2*Nscore;
-                delayTimes[4] = 0.041*Nscore;
+                autofilt.octaves = Nscore/4;
+                delayTimes[4] = 0.05*Math.random()*Nscore;
                 positions[4] = Nscore
             }
             let scores = [Oscore, Cscore, Escore, Ascore, Nscore]
@@ -906,23 +913,26 @@
             
             setParameters();
             let i
-            //makeLoop(effects[0], delayTimes[0], positions[0][0], positions[0][1], positions[0][2])
+            //makeLoop(effects[4], delayTimes[4], ((scores[4]-12,5)/10), scores[4])
             
             for (i=0; i<5; i++) {
-                makeLoop(effects[i], delayTimes[i], ((scores[i]-12,5)/10), scores[i])
+                makeLoop(effects[i], delayTimes[i], ((scores[i]-12,5)/10), scores[4-i])
             }
             //setParameters();
             
             micEnv.triggerAttackRelease(Oscore/8);
-            setTimeout(drawLoop,1000);
+            setTimeout(drawLoop,5000);
+            
+
+            document.getElementById("submit").style.display = "none";
+            document.getElementById("reset").style.display = "inline";
             
             function stopThings() {
-                document.getElementById("submit").style.display = "none";
-                document.getElementById("reset").style.display = "inline";
-                setTimeout(window.location.reload.bind(window.location), 300000)
+                gainout.gain.rampTo(0, 10);
+                setTimeout(window.location.reload.bind(window.location), 10000)
             }
 
-            stopThings()
+            setTimeout(stopThings,300000)
             //netlify
         }    
     </script>
