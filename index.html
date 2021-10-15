@@ -790,16 +790,16 @@
             mic.open()
             
             const Env = new Tone.AmplitudeEnvelope({
-                attack: 0.1,
+                attack: 4,
                 decay: 1,
                 sustain: 1,
-                release: 2
+                release: 0.2
             });
 
             mic.connect(miccomp);
             //miccomp.connect(Env)
             const noise = new Tone.Noise("pink").start();
-            const noisegain = new Tone.Gain(0.1);
+            const noisegain = new Tone.Gain(0.05);
             noise.connect(noisegain);
             noisegain.connect(Env);
             
@@ -927,7 +927,7 @@
             }
             //setParameters();
             
-            Env.triggerAttackRelease(Oscore/8);
+            Env.triggerAttackRelease((Oscore+Cscore+Escore+Ascore+Nscore)/40);
             
             drawLoop();            
 
