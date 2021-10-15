@@ -810,7 +810,7 @@
             function makeLoop(fx, dly, p, speed) {
                 const gain = new Tone.Gain(0.99);
                 const filter = new Tone.Filter(speed*200, "lowpass")
-                const delay = new Tone.Delay(dly,2);
+                const delay = new Tone.Delay(dly,10);
                 const comp = new Tone.Compressor(-24, 4);
                 const pos = new Tone.Panner(p);
                 const lfo = new Tone.LFO({
@@ -889,28 +889,28 @@
  
             function setParameters() {
                 //setInterval?
-                delayTimes[0] = 0.05*Math.random()*Oscore;
+                delayTimes[0] = Math.random()*Oscore*0.5;
                 positions[0] = Oscore
                 chorus.frequency.rampTo(0.1*Oscore)
                 chorus.delayTime = (Oscore)**2;
                 chorus.depth = Oscore/4;
                 
                 shift.frequency = (12.5-Cscore)**2;
-                delayTimes[1] = 0.05*Math.random()*Cscore;
+                delayTimes[1] = Math.random()*Cscore*0.5;
                 positions[1] = Cscore
 
-                delayTimes[2] = 0.01*Math.random()*Escore;
+                delayTimes[2] = Math.random()*Escore*0.5;
                 pitchdown.pitch = -0.05*Escore;
                 positions[2] = -Escore
                 
                 pitchup.pitch = Ascore/2;
-                delayTimes[3] = 0.05*Math.random()*Ascore;
+                delayTimes[3] = Math.random()*Ascore*0.5;
                 positions[3] = Ascore
 
                 autofilt.baseFrequency = (2000/Nscore);
                 autofilt.frequency.rampTo(0.01*(Nscore**3));
                 autofilt.octaves = Nscore/4;
-                delayTimes[4] = 0.05*Math.random()*Nscore;
+                delayTimes[4] = Math.random()*Nscore*0.5;
                 positions[4] = Nscore
             }
             let scores = [Oscore, Cscore, Escore, Ascore, Nscore]
