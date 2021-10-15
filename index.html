@@ -776,25 +776,28 @@
 
     document.getElementById("submit").onclick =
         async function startLoops() {
-            const mic = new Tone.UserMedia(10);
+            const mic = new Tone.UserMedia(-6);
+            const miccomp = new Tone.Compressor(-24,4)
+
             //mic.open()
             //await tabulateAnswers();
             //console.log(Oscore, Cscore, Escore, Ascore, Nscore)
 
+            const compout = new Tone.Compressor (-24, 4)
             const gainout = new Tone.Gain(.9).toDestination();
 
             //const mic = new Tone.UserMedia(10);
             mic.open()
             
             const Env = new Tone.AmplitudeEnvelope({
-                attack: 1,
+                attack: 0.1,
                 decay: 1,
-                sustain: 0.5,
+                sustain: 1,
                 release: 2
             });
-            mic.connect(Env);
 
-            const compout = new Tone.Compressor (-24, 4)
+            mic.connect(miccomp);
+            miccomp.connect(Env)
 
 
             //class - functions for voices makevoice(effect)?? 
@@ -927,8 +930,8 @@
             //setParameters();
             
             Env.triggerAttackRelease(Oscore/8);
-            setTimeout(drawLoop,3000);
             
+            drawLoop();            
 
             document.getElementById("submit").style.display = "none";
             document.getElementById("reset").style.display = "inline";
