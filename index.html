@@ -776,8 +776,9 @@
 
     document.getElementById("submit").onclick =
         async function startLoops() {
-            const mic = new Tone.UserMedia(-6);
+            const mic = new Tone.UserMedia(-24);
             const miccomp = new Tone.Compressor(-36,8)
+            Tone.Master.volume.value = -3
 
             //mic.open()
             //await tabulateAnswers();
