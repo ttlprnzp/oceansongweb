@@ -888,6 +888,11 @@
             xfeed.connect(xfeedgain);
             filterout.connect(rev);
             rev.connect(gainout);
+
+            const meter = new Tone.Meter();
+            gainout.connect(meter);
+            // the current level of the mic
+            setInterval(() => console.log(meter.getValue()), 100);
  
             function setParameters() {
                 //setInterval?
