@@ -808,7 +808,7 @@
             }
           
             function makeLoop(fx, dly, p, speed) {
-                const gain = new Tone.Gain(0.99);
+                const gain = new Tone.Gain(0.9);
                 const filter = new Tone.Filter(speed*200, "lowpass")
                 const delay = new Tone.Delay(dly,10);
                 const comp = new Tone.Compressor(-24, 4);
