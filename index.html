@@ -776,9 +776,9 @@
 
     document.getElementById("submit").onclick =
         async function startLoops() {
-            const mic = new Tone.UserMedia(-24);
-            const miccomp = new Tone.Compressor(-36,8)
-            Tone.Master.volume.value = -3
+            const mic = new Tone.UserMedia(-3);
+            const miccomp = new Tone.Compressor(-6,20)
+            //sTone.Master.volume.value = -6
 
             //mic.open()
             //await tabulateAnswers();
@@ -787,7 +787,6 @@
             const compout = new Tone.Compressor (-24, 4)
             const gainout = new Tone.Gain(.9).toDestination();
 
-            //const mic = new Tone.UserMedia(10);
             mic.open()
             
             const Env = new Tone.AmplitudeEnvelope({
@@ -798,8 +797,12 @@
             });
 
             mic.connect(miccomp);
-            miccomp.connect(Env)
-
+            //miccomp.connect(Env)
+            const noise = new Tone.Noise("pink").start();
+            const noisegain = new Tone.Gain(0.1);
+            noise.connect(noisegain);
+            noisegain.connect(Env);
+            
 
             //class - functions for voices makevoice(effect)?? 
             //3d spatialisation - binaural - make the listener move ??? 0/0/0 is listener position
@@ -841,7 +844,6 @@
                 
                 
                 Env.connect(gain);
-                noisegain.connect(gain);
                 xfeedgain.connect(gain);
                 gain.connect(comp);
                 comp.connect(fx);
@@ -853,11 +855,6 @@
                 lfo2.connect(lfo3.frequency)
                 lfo3.connect(delay.delayTime)
             }
-
-            const noise = new Tone.Noise("brown");
-            const noisegain = new Tone.Gain(0.001);
-            noise.connect(noisegain);
-            noisegain.connect(Env);
 
             const chorus = new Tone.Chorus(20, 20, 5);
             const pitchdown = new Tone.PitchShift(-1);
