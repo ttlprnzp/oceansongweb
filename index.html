@@ -786,13 +786,13 @@
             //const mic = new Tone.UserMedia(10);
             mic.open()
             
-            micEnv = new Tone.AmplitudeEnvelope({
+            const Env = new Tone.AmplitudeEnvelope({
                 attack: 1,
                 decay: 1,
                 sustain: 1.0,
                 release: 2
             });
-            mic.connect(micEnv);
+            mic.connect(Env);
 
             const compout = new Tone.Compressor (-24, 4)
 
@@ -836,7 +836,7 @@
                 }).start();
                 
                 
-                micEnv.connect(gain);
+                Env.connect(gain);
                 noisegain.connect(gain);
                 xfeedgain.connect(gain);
                 gain.connect(comp);
@@ -853,6 +853,7 @@
             const noise = new Tone.Noise("brown");
             const noisegain = new Tone.Gain(0.001);
             noise.connect(noisegain);
+            noisegain.connect(Env);
 
             const chorus = new Tone.Chorus(20, 20, 5);
             const pitchdown = new Tone.PitchShift(-1);
@@ -925,7 +926,7 @@
             }
             //setParameters();
             
-            micEnv.triggerAttackRelease(Oscore/8);
+            Env.triggerAttackRelease(Oscore/8);
             setTimeout(drawLoop,3000);
             
 
