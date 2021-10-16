@@ -15,7 +15,6 @@
       background-color: #ffffff;
       font-family: monospace;
       font-size: 12px;
-      text-shadow: 1px 1px #ffffff;
     }
 
     canvas {
@@ -30,8 +29,8 @@
     }
 
     #info {
-        width:100%;
-        position:fixed;
+        width:99%;
+        position:absolute;
         text-align:left;
         margin: 0;
     }
@@ -59,8 +58,8 @@
 
     #test {
         height: 50vh;
-        position:fixed;
-        width:100%;
+        position:absolute;
+        width:99%;
         vertical-align: middle;
         margin: 16vh auto;
         text-align:center;
@@ -129,7 +128,7 @@
     }
     
     .tab {
-      display: none;
+        display: none;
     }
     
     button {
@@ -184,7 +183,6 @@
             <div id="test">
 
                 <div class="tab">
-                    
                     <div class="qcontainer">
     <!-- Question 1 -->
                         <h2>I am the life of the party.</h2>
@@ -478,11 +476,11 @@
         </div>                
 
         <div id="info">
-            <h3>Andreas Sommer</h3>
-            <h1>OCEAN SONG</h1>
             <div class="tab">
+                <h3>Andreas Sommer</h3>
+                <h1>OCEAN SONG</h1>
                 <p>Your data has successfully been processed and evaluated. 
-                </br>Once you hit submit, your individually composed Ocean Song will play for you for three minutes.</p>
+                </br>Once you hit submit, your individually composed Ocean Song will play for you for five minutes.</p>
             </div>
         </div>
 
@@ -508,11 +506,7 @@
 
 <script>
     let currentTab = 0;
-    let page1 = [0,0,0,0,0];
-    let page2 = [0,0,0,0,0];
-    let page3 = [0,0,0,0,0];
-    let page4 = [0,0,0,0,0];
-    let qValues = [page1, page2, page3, page4] 
+    let qValues = [new Array(5), new Array(5), new Array(5), new Array(5)] 
     
     const pages = document.getElementsByClassName("tab")
 
@@ -522,7 +516,7 @@
         pages[n].style.display = "block";
         await Tone.start();
             console.log("läuft")
-            var mic = new Tone.UserMedia(10);
+            let mic = new Tone.UserMedia();
             mic.open()
         pages[currentTab].style.display = "none";
         currentTab = currentTab + n;
@@ -531,7 +525,6 @@
 
     function showTab(n) {
         pages[n].style.display = "block";
-        //... and fix the Previous/Next buttons:
         if (n == 0) {
             document.getElementById("start").style.display = "inline";
             document.getElementById("nextBtn").style.display = "none";
@@ -547,48 +540,24 @@
         } 
         fixStepIndicator(n)
     }
-    
-    function pushAnswers(cTab) {
-        let choices = pages[cTab].getElementsByTagName('input');
-            console.log(choices[1].value);
-            for (i=0; i < choices.length; i++) {
-                if (choices[i].placeholder == 1) {
-                    if (choices[i].id == 'open') {
-                        qValues[cTab-1][0] = (6-parseInt(choices[i].value));
-                    }
-                    if (choices[i].id == 'consc') {
-                        qValues[cTab-1][1] = (6-parseInt(choices[i].value));
-                    }
-                    if (choices[i].id == 'extra') {
-                        qValues[cTab-1][2] = (6-parseInt(choices[i].value));
-                    }
-                    if (choices[i].id == 'agree') {
-                        qValues[cTab-1][3] = (6-parseInt(choices[i].value));
-                    }
-                    if (choices[i].id == 'neuro') {
-                        qValues[cTab-1][4] = (6-parseInt(choices[i].value));
-                    }
-                } else {
-                    if (choices[i].id == 'open') {
-                        qValues[cTab-1][0] = parseInt(choices[i].value);
-                    }
-                    if (choices[i].id == 'consc') {
-                        qValues[cTab-1][1] = parseInt(choices[i].value);
-                    }
-                    if (choices[i].id == 'extra') {
-                        qValues[cTab-1][2] = parseInt(choices[i].value);
-                    }
-                    if (choices[i].id == 'agree') {
-                        qValues[cTab-1][3] = parseInt(choices[i].value);
-                    }
-                    if (choices[i].id == 'neuro') {
-                        qValues[cTab-1][4] = parseInt(choices[i].value);
-                    }
-                };
-            }
-            console.log(qValues[currentTab-1]);
+
+    const idArray = ['open', 'consc', 'extra', 'agree', 'neuro']
+
+    function pushAnswers(n) {
+        let choices = pages[n].getElementsByTagName('input');
+            for(let j = 0; j<idArray.length; j++) {  
+                for (let i=0; i<choices.length; i++) {
+                    if (choices[i].id == idArray[j]){
+                        if (choices[i].placeholder == 1) {
+                                qValues[n-1][j] = 6-parseInt(choices[i].value)
+                            } else {                                
+                                qValues[n-1][j] = parseInt(choices[i].value)
+                        }
+                    }    
+                }
+            }   
             shape(qValues[currentTab-1], radius/5, 1, angle, 2);
-        }
+    }
 
     function nextPrev(n) {            
         pushAnswers(currentTab);
@@ -609,48 +578,28 @@
         steps[n].className += " active";
     }
     
-    let Oscore = 0, Cscore = 0, Escore = 0, Ascore = 0, Nscore = 0;
+    const allscores = [0,0,0,0,0]
+    let scoresum = 0
+    let scoreavg = 0
     
-    //document.getElementById("submit").onclick =
     function tabulateAnswers() {
         let choices = document.getElementsByTagName("input");
-            for(i=0; i<choices.length; i++) {
-                if (choices[i].placeholder == 1) {
-                    if (choices[i].id == 'open') {
-                        Oscore = Oscore + (6-parseInt(choices[i].value));
-                    }
-                    if (choices[i].id == 'consc') {
-                        Cscore = Cscore + (6-parseInt(choices[i].value));
-                    }
-                    if (choices[i].id == 'extra') {
-                        Escore = Escore + (6-parseInt(choices[i].value));
-                    }
-                    if (choices[i].id == 'agree') {
-                        Ascore = Ascore + (6-parseInt(choices[i].value));
-                    }
-                    if (choices[i].id == 'neuro') {
-                        Nscore = Nscore + (6-parseInt(choices[i].value));
-                    }
-                } else {
-                    if (choices[i].id == 'open') {
-                        Oscore = Oscore + parseInt(choices[i].value);
-                    }
-                    if (choices[i].id == 'consc') {
-                        Cscore = Cscore + parseInt(choices[i].value);
-                    }
-                    if (choices[i].id == 'extra') {
-                        Escore = Escore + parseInt(choices[i].value);
-                    }
-                    if (choices[i].id == 'agree') {
-                        Ascore = Ascore + parseInt(choices[i].value);
-                    }
-                    if (choices[i].id == 'neuro') {
-                        Nscore = Nscore + parseInt(choices[i].value);
-                    }
+            for(let j = 0; j<idArray.length; j++) {  
+                for (let i=0; i<choices.length; i++) {
+                    if (choices[i].id == idArray[j]){
+                        if (choices[i].placeholder == 1) {
+                                allscores[j] = allscores[j] + 6-parseInt(choices[i].value)
+                            } else {                                
+                                allscores[j] = allscores[j] + parseInt(choices[i].value)
+                        }
+                    }    
                 }
+            }   
+            for (let i = 0; i < allscores.length; i++) {
+                scoresum += allscores[i]
             }
-            console.log(Oscore, Cscore, Escore, Ascore, Nscore)
-            return Oscore, Cscore, Escore, Ascore, Nscore 
+            scoreavg = scoresum/5
+            return allscores; scoresum; scoreavg
     }
 </script>
 
@@ -662,12 +611,10 @@
     let radius = 0
     let move = angle
 
-
     function initialize() {
         window.addEventListener('resize', resizeCanvas, false);
         resizeCanvas();
     }
-
 
     function resizeCanvas() {
         canvas.width = window.innerWidth;
@@ -722,14 +669,13 @@
     function shape(values,size,alpha,angle,thick) {
         ctx.beginPath();
         ctx.lineWidth = thick;
-        for (let i=0; i<  values.length; i++) {
+        for (let i=0; i<values.length; i++) {
             ctx.lineTo(values[i]*size*Math.cos(i*angle),values[i]*size*Math.sin(i*angle));
         }   
         ctx.closePath();
-        ctx.strokeStyle = 'rgba(0, 0, 0, '+alpha+')'
+        ctx.strokeStyle = 'rgba(0, 0, 0,'+alpha+')'
         ctx.stroke();
     }
-
     
     function setBackground() {
         let factor = [1, 0.8, 0.6, 0.4, 0.2];
@@ -739,111 +685,143 @@
         grid(radius*2, 0.1, angle)
     }
 
-      
-    function getRan(min,max) {
-        min = Math.ceil(min);
-        max = Math.floor(max);
-        return Math.floor(Math.random() * (max - min +1)) + min;
-    }
-
-    total = getRan(20,100)
-
     function rotate(speed) {
-    move += speed;
+        move += speed;
     }
-    function drawLoop() {
-        background(radius, 0.3, move, (0.2/Nscore));
-        shape(qValues[0], size, 0.7, angle, 1);
-        shape(qValues[1], size, 0.7, angle, 1);
-        shape(qValues[2], size, 0.7, angle, 1);
-        shape(qValues[3], size, 0.7, angle, 1);
-        ctx.rotate(0.1*Cscore)
-        rotate((Oscore+Cscore+Escore+Ascore+Nscore));
-        radius = radius+(0.02*Oscore);
-        size = size-(0.002*Escore);
-        //num = num+10
-        //if (num <= 900) {
-        //timeout = 1000-num}
+        
+    function drawLoop(module) {
+        background(radius, 0.3, move, (0.2/allscores[4]));
+        for (let i=0; i<qValues.length; i++) {
+            shape(qValues[i], size, 0.7, angle, 1)
+        }
+        ctx.rotate(0.1*allscores[1])
+        rotate(scoresum);
+        radius = radius+(0.02*allscores[0]);
+        size = size-(0.002*allscores[2]);
         setTimeout(drawLoop,33)
-        //window.requestAnimationFrame(drawLoop);
+        return size
     }
 </script>
 
 <script type="module">
-    ///////////////////////////////////////////// SOUND  
-    
-    let micEnv
-
     document.getElementById("submit").onclick =
         async function startLoops() {
-            const mic = new Tone.UserMedia(-3);
-            const miccomp = new Tone.Compressor(-6,20)
-            //sTone.Master.volume.value = -6
+            document.getElementById("submit").style.display = "none";
+            document.getElementById("reset").style.display = "inline";
 
-            //mic.open()
-            //await tabulateAnswers();
-            //console.log(Oscore, Cscore, Escore, Ascore, Nscore)
+            const mic = new Tone.UserMedia(0);
+            mic.open()
+            const micEnv = new Tone.AmplitudeEnvelope({
+                attack: 1,
+                decay: 1,
+                sustain: 1.0,
+                release: 2
+            });
+            
+            const meter = new Tone.Meter()
+            const micgain = new Tone.Gain(0.5)
 
+            function agc() {
+                console.log(meter.getValue())
+                if (meter.getValue() < -40) {
+                    micgain.gain.rampTo(micgain.gain.value*2)
+                } 
+                if (meter.getValue() > -30) {
+                    micgain.gain.rampTo(micgain.gain.value*0.01)
+                }
+                setTimeout(agc,100);
+            }
+
+            micgain.connect(meter);
+            mic.connect(micgain);
+            micgain.connect(micEnv);
+      
             const compout = new Tone.Compressor (-24, 4)
             const gainout = new Tone.Gain(.9).toDestination();
-
-            mic.open()
+            const filterout = new Tone.Filter(30, "highpass");
+            const xfeed = new Tone.Delay(20, 30);
+            const xfeedgain = new Tone.Gain(0.001)
             
-            const Env = new Tone.AmplitudeEnvelope({
-                attack: 4,
-                decay: 1,
-                sustain: 1,
-                release: 0.2
-            });
+            const chorus = new Tone.Chorus({
+                delayTime: 20,
+                depth: 5,
+                frequency: 1,
+                spread: 90});
 
-            mic.connect(miccomp);
-            //miccomp.connect(Env)
-            const noise = new Tone.Noise("pink").start();
-            const noisegain = new Tone.Gain(0.05);
-            noise.connect(noisegain);
-            noisegain.connect(Env);
-            
+            const pitchdown = new Tone.PitchShift({
+                delayTime: 1,
+                windowsize: 1,
+                pitch: -1});
 
-            //class - functions for voices makevoice(effect)?? 
-            //3d spatialisation - binaural - make the listener move ??? 0/0/0 is listener position
-            //fft / filter bank mit envelope follower um frequenzbänder besser zu kontrollieren
-            
-            const delayTimes = [1,1,1,1,1]
-            const positions = [0,0,0,0,0]
-            function getRndInteger(min, max) {
-                return Math.floor(Math.random() * (max - min + 1) ) + min;
-            }
-          
-            function makeLoop(fx, dly, p, speed) {
-                const gain = new Tone.Gain(0.9);
-                const filter = new Tone.Filter(speed*200, "lowpass")
-                const delay = new Tone.Delay(dly,10);
-                const comp = new Tone.Compressor(-24, 4);
-                const pos = new Tone.Panner(p);
-                const lfo = new Tone.LFO({
-                    frequency: 0.005*speed, 
-                    min: -p/2, 
-                    max: p/2,
-                    phase: 360/speed,
+            const shift = new Tone.FrequencyShifter({
+                frequency: 0.5,
+                wet: 0.5});
+
+            const pitchup = new Tone.PitchShift({
+                delayTime: 1,
+                windowsize: 1,
+                pitch: +1});
+
+            const autofilt = new Tone.AutoFilter({
+                frequency: 0.01,
+                baseFrequency: 200,
+                octaves: 1,
+                depth: 0.5})
+      
+            const effects = [chorus, shift, pitchdown, pitchup, autofilt]
+
+            const lfo1 = new Tone.LFO({
+                    frequency: 0.1*scoreavg, 
+                    min: 0, 
+                    max: 0.1,
+                    phase: 360/scoreavg,
                     type: "sine"
-                }).start();
+                }).start()
+
+            const rev = new Tone.Reverb({
+                decay: 2, 
+                wet: 0.8});
+
+            lfo1.connect(xfeedgain.gain);            
+            
+            filterout.connect(compout);
+            compout.connect(xfeed);
+            xfeed.connect(xfeedgain);
+            compout.connect(rev);
+            rev.connect(gainout);
+                                    
+            function makeLoop(fx, dly, p, scores) {
+                const gain = new Tone.Gain(0.9);
+                const filter = new Tone.Filter(scores*100, "lowpass")
+                const delay = new Tone.Delay(dly,10);
+                const comp = new Tone.Compressor({
+                    threshold: -24, 
+                    ratio: 4,
+                    attack: 0.5});
+                const pos = new Tone.Panner(p);
                 const lfo2 = new Tone.LFO({
-                    frequency: 0.001*speed, 
-                    min: 0.0, 
-                    max: 0.001,
-                    phase: 360/speed,
+                    frequency: 0.005*scores, 
+                    min: -p, 
+                    max: p,
+                    phase: 360/scores,
                     type: "sine"
                 }).start();
                 const lfo3 = new Tone.LFO({
-                    frequency: 0.1*speed, 
+                    frequency: 0.001*scores, 
+                    min: 0.0, 
+                    max: 0.1*scores,
+                    phase: 270/scores,
+                    type: "sine"
+                }).start();
+                const lfo4 = new Tone.LFO({
+                    frequency: 0.1*scores, 
                     min: dly, 
                     max: dly*2,
-                    phase: 180/speed,
-                    type: "triangle"
+                    phase: 180/scores,
+                    type: "square"
                 }).start();
-                
-                
-                Env.connect(gain);
+                                
+                micEnv.connect(gain);
                 xfeedgain.connect(gain);
                 gain.connect(comp);
                 comp.connect(fx);
@@ -851,101 +829,69 @@
                 delay.connect(gain);
                 gain.connect(pos);
                 pos.connect(filterout);
-                lfo.connect(pos.pan);
-                lfo2.connect(lfo3.frequency)
-                lfo3.connect(delay.delayTime)
+                lfo2.connect(pos.pan);
+                lfo3.connect(lfo3.frequency);
+                lfo4.connect(delay.delayTime)   
+            }
+                        
+            const delayTimes = new Array(5)
+            const positions = new Array(5)
+            const LFOs = new Array(5)
+            
+            function setDelayTimes(scores) {
+                for (let i=0; i<scores.length; i++) {
+                    delayTimes[i] = 0.5*Math.random()*scores[i]
+                }
             }
 
-            const chorus = new Tone.Chorus(20, 20, 5);
-            const pitchdown = new Tone.PitchShift(-1);
-            const shift = new Tone.FrequencyShifter(0.5);
-            const pitchup = new Tone.PitchShift(+1);
-            const autofilt = new Tone.AutoFilter({
-                frequency: 0.01, 
-                baseFrequency: 200, 
-                octaves: 1,
-            })
-            const lfo2 = new Tone.LFO({
-                    frequency: 0.1*Ascore, 
-                    min: 0, 
-                    max: 0.005,
-                    phase: 360/Ascore,
-                    type: "sine"
-                }).start();
+            function setPositions(scores) {
+                for (let i=0; i<scores.length; i++) {
+                positions[i] = (scores[i]-12)/10
+                }
+            }
 
-            const effects = [chorus, shift, pitchdown, pitchup, autofilt]
+            function setParameters(scores) {
+                setDelayTimes(scores);
+                setPositions(scores);
 
-            const xfeed = new Tone.Delay(20, 30)
-            const xfeedgain = new Tone.Gain(0.001)
-            const filterout = new Tone.Filter(30, "highpass")
-
-            const rev = new Tone.Reverb({
-                decay: 2, 
-                wet: 0.7});
-            lfo2.connect(xfeedgain.gain);            
-            filterout.connect(compout);
-            compout.connect(xfeed);
-            xfeed.connect(xfeedgain);
-            filterout.connect(rev);
-            rev.connect(gainout);
-
-            const meter = new Tone.Meter();
-            gainout.connect(meter);
-            // the current level of the mic
-            setInterval(() => console.log(meter.getValue()), 100);
- 
-            function setParameters() {
-                //setInterval?
-                delayTimes[0] = Math.random()*Oscore*0.5;
-                positions[0] = Oscore
-                chorus.frequency.rampTo(0.1*Oscore)
-                chorus.delayTime = (Oscore)**2;
-                chorus.depth = Oscore/4;
+                chorus.frequency.rampTo(0.1*scores[0])
+                chorus.delayTime = scores[0]**2;
+                chorus.depth = scores[0]/4;
+                chorus.spread = 360/scores[0];
                 
-                shift.frequency = (12.5-Cscore)**2;
-                delayTimes[1] = Math.random()*Cscore*0.5;
-                positions[1] = Cscore
+                shift.frequency = (12.5-scores[1])**2;
+                shift.wet.rampTo(1-(1/scores[1]))
 
-                delayTimes[2] = Math.random()*Escore*0.5;
-                pitchdown.pitch = -0.05*Escore;
-                positions[2] = -Escore
-                
-                pitchup.pitch = Ascore/2;
-                delayTimes[3] = Math.random()*Ascore*0.5;
-                positions[3] = Ascore
+                pitchdown.pitch = -0.05*scores[2];
+                pitchdown.delayTime.rampTo(''+scores[2]+'hz')
+                pitchdown.windowsize = scores[2]*0.25
 
-                autofilt.baseFrequency = (2000/Nscore);
-                autofilt.frequency.rampTo(0.01*(Nscore**3));
-                autofilt.octaves = Nscore/4;
-                delayTimes[4] = Math.random()*Nscore*0.5;
-                positions[4] = Nscore
+                pitchup.pitch = scores[3]/2;
+                pitchup.delayTime.rampTo(''+scores[3]+'hz')
+                pitchup.windowsize = scores[3]*0.2
+
+                autofilt.baseFrequency = 2000/scores[4];
+                autofilt.frequency.rampTo(0.01*(scores[4]**3));
+                autofilt.octaves = scores[4]/4;
+                autofilt.depth.rampTo(scores[4]/20)
             }
-            let scores = [Oscore, Cscore, Escore, Ascore, Nscore]
-            console.log(Oscore, Cscore, Escore, Ascore, Nscore)
+                       
+            setParameters(allscores);
             
-            setParameters();
-            let i
-            //makeLoop(effects[4], delayTimes[4], ((scores[4]-12,5)/10), scores[4])
-            
-            for (i=0; i<5; i++) {
-                makeLoop(effects[i], delayTimes[i], ((scores[i]-12,5)/10), scores[4-i])
+            //makeLoop(effects[2], delayTimes[2], ((scores[2]-12,5)/10), scores[2])
+            for (let i=0; i<allscores.length; i++) {
+                  makeLoop(effects[i], delayTimes[i], positions[i], allscores[4-i])
             }
-            //setParameters();
-            
-            Env.triggerAttackRelease((Oscore+Cscore+Escore+Ascore+Nscore)/40);
-            
-            drawLoop();            
-
-            document.getElementById("submit").style.display = "none";
-            document.getElementById("reset").style.display = "inline";
-            
+            agc();
+            micEnv.triggerAttackRelease(scoreavg/10);
+            drawLoop();
+                      
             function stopThings() {
                 gainout.gain.rampTo(0, 10);
                 setTimeout(window.location.reload.bind(window.location), 10000)
             }
 
             setTimeout(stopThings,300000)
-            //netlify
         }    
     </script>
 
